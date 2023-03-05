@@ -11,11 +11,11 @@ namespace TestKeyboard.Entity
         /// <summary>
         /// 任务间隔时间(秒)
         /// </summary>
-        public decimal time { get; set; }
+        public int time { get; set; }
         /// <summary>
         /// 剩余时间(秒)
         /// </summary>
-        public decimal less { get; set; }
+        public int less { get; set; }
         /// <summary>
         /// 任务类型
         /// </summary>
@@ -34,9 +34,13 @@ namespace TestKeyboard.Entity
         /// </summary>
         public int y { get; set; }  
         /// <summary>
+        /// 持续时间
+        /// </summary>
+        public int duration { get; set; }
+        /// <summary>
         /// 后置延迟
         /// </summary>
-        public decimal delay { get; set; }
+        public int delay { get; set; }
         public string contentName { get; set; }
         /// <summary>
         /// 运行次数
