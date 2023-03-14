@@ -1,16 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace TestKeyboard.SetForegroundWindow
 {
    
     public class Foreground
     {
+
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct RECT
+        {
+            public int Left;        // x position of upper-left corner
+            public int Top;         // y position of upper-left corner
+            public int Right;       // x position of lower-right corner
+            public int Bottom;      // y position of lower-right corner
+        }
+
+      
+
+        public static Rectangle GetWindowRect(string windowName)
+        {
+            RECT rct;
+            Rectangle myRect = new Rectangle();
+
+            var temp = GetAllDesktopWindows();
+            WindowInfo findWindow = new WindowInfo(); 
+            bool isFind = false;
+            foreach (WindowInfo info in temp)
+            {
+                if (info.szWindowName == windowName)
+                { 
+                    findWindow = info;
+                    isFind= true;
+                    break;
+                }
+            }
+            if (!isFind)
+                return myRect;
+            if (!GetWindowRect(findWindow.hWnd, out rct))
+                return myRect;
+           
+            myRect.X = rct.Left;
+            myRect.Y = rct.Top;
+            myRect.Width = rct.Right - rct.Left + 1;
+            myRect.Height = rct.Bottom - rct.Top + 1;
+            return myRect;
+        }
+
+
         private delegate bool WNDENUMPROC(IntPtr hWnd, int lParam);
         WindowInfo[] infos = { };
         [DllImport("user32.dll")]
@@ -42,7 +89,7 @@ namespace TestKeyboard.SetForegroundWindow
         private static extern IntPtr GetForegroundWindow();
         [DllImport("kernel32.dll")]
         static extern uint GetCurrentThreadId();
-        public WindowInfo[] GetAllDesktopWindows()
+        public static WindowInfo[] GetAllDesktopWindows()
         {
 
             //用来保存窗口对象 列表
@@ -84,8 +131,8 @@ namespace TestKeyboard.SetForegroundWindow
             int result;
 
             hWnd = IntPtr.Zero;
-            infos = GetAllDesktopWindows();
-            foreach (WindowInfo info in infos)
+            var  temp = GetAllDesktopWindows();
+            foreach (WindowInfo info in temp)
                 if (info.szWindowName == windowName)
                     hWnd = info.hWnd;
 

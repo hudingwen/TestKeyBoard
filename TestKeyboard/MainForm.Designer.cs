@@ -44,18 +44,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.gridJobs = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnDel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -81,7 +69,9 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button7 = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.btnDown = new System.Windows.Forms.Button();
             this.btnSetTime = new System.Windows.Forms.Button();
+            this.btnUp = new System.Windows.Forms.Button();
             this.textDuration = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
@@ -105,6 +95,25 @@
             this.label12 = new System.Windows.Forms.Label();
             this.comBoard = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.txtSample = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.btnSelectSample = new System.Windows.Forms.Button();
+            this.txtRemark = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.posX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.posY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridJobs)).BeginInit();
@@ -123,11 +132,11 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(23, 343);
+            this.button2.Location = new System.Drawing.Point(23, 390);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(65, 23);
+            this.button2.Size = new System.Drawing.Size(97, 23);
             this.button2.TabIndex = 1;
-            this.button2.Text = "开始";
+            this.button2.Text = "开始(鼠标中键)";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.Button2_Click);
             // 
@@ -137,23 +146,23 @@
             this.richLogs.Location = new System.Drawing.Point(0, 0);
             this.richLogs.Name = "richLogs";
             this.richLogs.ReadOnly = true;
-            this.richLogs.Size = new System.Drawing.Size(1368, 123);
+            this.richLogs.Size = new System.Drawing.Size(1314, 123);
             this.richLogs.TabIndex = 2;
             this.richLogs.Text = "";
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(89, 343);
+            this.button4.Location = new System.Drawing.Point(126, 390);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(65, 23);
+            this.button4.Size = new System.Drawing.Size(106, 23);
             this.button4.TabIndex = 4;
-            this.button4.Text = "停止";
+            this.button4.Text = "停止(鼠标中键)";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(23, 254);
+            this.button5.Location = new System.Drawing.Point(14, 254);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(75, 23);
             this.button5.TabIndex = 6;
@@ -182,9 +191,9 @@
             // 
             this.button10.Location = new System.Drawing.Point(14, 21);
             this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(237, 23);
+            this.button10.Size = new System.Drawing.Size(238, 23);
             this.button10.TabIndex = 18;
-            this.button10.Text = "实时获取鼠标位置(鼠标中键停止)";
+            this.button10.Text = "实时获取鼠标位置(F1停止)";
             this.button10.UseVisualStyleBackColor = true;
             this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
@@ -273,6 +282,7 @@
             this.gridJobs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.gridJobs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
+            this.Column14,
             this.Column2,
             this.Column3,
             this.Column4,
@@ -283,121 +293,19 @@
             this.Column10,
             this.Column11,
             this.Column12,
+            this.Column13,
             this.Column9});
             this.gridJobs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridJobs.Location = new System.Drawing.Point(0, 0);
             this.gridJobs.Name = "gridJobs";
             this.gridJobs.ReadOnly = true;
             this.gridJobs.RowTemplate.Height = 23;
-            this.gridJobs.Size = new System.Drawing.Size(786, 534);
+            this.gridJobs.Size = new System.Drawing.Size(796, 677);
             this.gridJobs.TabIndex = 36;
-            // 
-            // Column1
-            // 
-            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Column1.DataPropertyName = "type";
-            this.Column1.HeaderText = "任务";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            this.Column1.Width = 54;
-            // 
-            // Column2
-            // 
-            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Column2.DataPropertyName = "time";
-            this.Column2.HeaderText = "间隔(ms)";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            this.Column2.Width = 78;
-            // 
-            // Column3
-            // 
-            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Column3.DataPropertyName = "less";
-            this.Column3.HeaderText = "下次(ms)";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            this.Column3.Width = 78;
-            // 
-            // Column4
-            // 
-            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Column4.DataPropertyName = "content";
-            this.Column4.HeaderText = "内容";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            this.Column4.Width = 54;
-            // 
-            // Column5
-            // 
-            this.Column5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Column5.DataPropertyName = "x";
-            this.Column5.HeaderText = "X坐标";
-            this.Column5.Name = "Column5";
-            this.Column5.ReadOnly = true;
-            this.Column5.Width = 60;
-            // 
-            // Column6
-            // 
-            this.Column6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Column6.DataPropertyName = "y";
-            this.Column6.HeaderText = "Y坐标";
-            this.Column6.Name = "Column6";
-            this.Column6.ReadOnly = true;
-            this.Column6.Width = 60;
-            // 
-            // Column8
-            // 
-            this.Column8.DataPropertyName = "duration";
-            this.Column8.HeaderText = "持续时间(ms)";
-            this.Column8.Name = "Column8";
-            this.Column8.ReadOnly = true;
-            this.Column8.Width = 90;
-            // 
-            // Column7
-            // 
-            this.Column7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Column7.DataPropertyName = "delay";
-            this.Column7.HeaderText = "后置延迟(ms)";
-            this.Column7.Name = "Column7";
-            this.Column7.ReadOnly = true;
-            this.Column7.Width = 102;
-            // 
-            // Column10
-            // 
-            this.Column10.DataPropertyName = "count";
-            this.Column10.HeaderText = "运行次数";
-            this.Column10.Name = "Column10";
-            this.Column10.ReadOnly = true;
-            this.Column10.Width = 80;
-            // 
-            // Column11
-            // 
-            this.Column11.DataPropertyName = "countLess";
-            this.Column11.HeaderText = "已运行次数";
-            this.Column11.Name = "Column11";
-            this.Column11.ReadOnly = true;
-            this.Column11.Width = 90;
-            // 
-            // Column12
-            // 
-            this.Column12.DataPropertyName = "typeName";
-            this.Column12.HeaderText = "typeName";
-            this.Column12.Name = "Column12";
-            this.Column12.ReadOnly = true;
-            this.Column12.Visible = false;
-            // 
-            // Column9
-            // 
-            this.Column9.DataPropertyName = "contentName";
-            this.Column9.HeaderText = "描述";
-            this.Column9.Name = "Column9";
-            this.Column9.ReadOnly = true;
-            this.Column9.Width = 90;
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(23, 314);
+            this.btnAdd.Location = new System.Drawing.Point(23, 361);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(65, 23);
             this.btnAdd.TabIndex = 37;
@@ -407,7 +315,7 @@
             // 
             // btnDel
             // 
-            this.btnDel.Location = new System.Drawing.Point(90, 314);
+            this.btnDel.Location = new System.Drawing.Point(90, 361);
             this.btnDel.Name = "btnDel";
             this.btnDel.Size = new System.Drawing.Size(65, 23);
             this.btnDel.TabIndex = 38;
@@ -427,7 +335,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(21, 216);
+            this.label2.Location = new System.Drawing.Point(20, 259);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 12);
             this.label2.TabIndex = 40;
@@ -436,7 +344,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(168, 216);
+            this.label3.Location = new System.Drawing.Point(185, 259);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(17, 12);
             this.label3.TabIndex = 42;
@@ -455,9 +363,9 @@
             // 
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 534);
+            this.panel1.Location = new System.Drawing.Point(0, 677);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1368, 24);
+            this.panel1.Size = new System.Drawing.Size(1314, 24);
             this.panel1.TabIndex = 45;
             // 
             // panel2
@@ -470,7 +378,7 @@
             this.panel2.Controls.Add(this.label8);
             this.panel2.Controls.Add(this.label11);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(1103, 0);
+            this.panel2.Location = new System.Drawing.Point(1049, 0);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(265, 24);
             this.panel2.TabIndex = 36;
@@ -506,9 +414,9 @@
             // 
             this.panel3.Controls.Add(this.richLogs);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(0, 411);
+            this.panel3.Location = new System.Drawing.Point(0, 554);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1368, 123);
+            this.panel3.Size = new System.Drawing.Size(1314, 123);
             this.panel3.TabIndex = 46;
             // 
             // panel4
@@ -519,7 +427,7 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1368, 534);
+            this.panel4.Size = new System.Drawing.Size(1314, 677);
             this.panel4.TabIndex = 47;
             // 
             // panel7
@@ -528,7 +436,7 @@
             this.panel7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel7.Location = new System.Drawing.Point(253, 0);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(786, 534);
+            this.panel7.Size = new System.Drawing.Size(796, 677);
             this.panel7.TabIndex = 2;
             // 
             // panel6
@@ -549,14 +457,14 @@
             this.panel6.Controls.Add(this.label6);
             this.panel6.Controls.Add(this.button10);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel6.Location = new System.Drawing.Point(1039, 0);
+            this.panel6.Location = new System.Drawing.Point(1049, 0);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(329, 534);
+            this.panel6.Size = new System.Drawing.Size(265, 677);
             this.panel6.TabIndex = 1;
             // 
             // btntest_stop
             // 
-            this.btntest_stop.Location = new System.Drawing.Point(154, 343);
+            this.btntest_stop.Location = new System.Drawing.Point(177, 254);
             this.btntest_stop.Name = "btntest_stop";
             this.btntest_stop.Size = new System.Drawing.Size(75, 23);
             this.btntest_stop.TabIndex = 60;
@@ -566,7 +474,7 @@
             // 
             // btnTest
             // 
-            this.btnTest.Location = new System.Drawing.Point(73, 343);
+            this.btnTest.Location = new System.Drawing.Point(96, 254);
             this.btnTest.Name = "btnTest";
             this.btnTest.Size = new System.Drawing.Size(75, 23);
             this.btnTest.TabIndex = 58;
@@ -659,7 +567,14 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.txtRemark);
+            this.panel5.Controls.Add(this.label24);
+            this.panel5.Controls.Add(this.btnSelectSample);
+            this.panel5.Controls.Add(this.txtSample);
+            this.panel5.Controls.Add(this.label20);
+            this.panel5.Controls.Add(this.btnDown);
             this.panel5.Controls.Add(this.btnSetTime);
+            this.panel5.Controls.Add(this.btnUp);
             this.panel5.Controls.Add(this.textDuration);
             this.panel5.Controls.Add(this.label18);
             this.panel5.Controls.Add(this.label19);
@@ -696,12 +611,22 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel5.Location = new System.Drawing.Point(0, 0);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(253, 534);
+            this.panel5.Size = new System.Drawing.Size(253, 677);
             this.panel5.TabIndex = 0;
+            // 
+            // btnDown
+            // 
+            this.btnDown.Location = new System.Drawing.Point(90, 448);
+            this.btnDown.Name = "btnDown";
+            this.btnDown.Size = new System.Drawing.Size(64, 23);
+            this.btnDown.TabIndex = 62;
+            this.btnDown.Text = "向下移动";
+            this.btnDown.UseVisualStyleBackColor = true;
+            this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
             // 
             // btnSetTime
             // 
-            this.btnSetTime.Location = new System.Drawing.Point(157, 314);
+            this.btnSetTime.Location = new System.Drawing.Point(157, 361);
             this.btnSetTime.Name = "btnSetTime";
             this.btnSetTime.Size = new System.Drawing.Size(65, 23);
             this.btnSetTime.TabIndex = 69;
@@ -709,18 +634,28 @@
             this.btnSetTime.UseVisualStyleBackColor = true;
             this.btnSetTime.Click += new System.EventHandler(this.btnSetTime_Click);
             // 
+            // btnUp
+            // 
+            this.btnUp.Location = new System.Drawing.Point(24, 448);
+            this.btnUp.Name = "btnUp";
+            this.btnUp.Size = new System.Drawing.Size(65, 23);
+            this.btnUp.TabIndex = 61;
+            this.btnUp.Text = "向上移动";
+            this.btnUp.UseVisualStyleBackColor = true;
+            this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
+            // 
             // textDuration
             // 
-            this.textDuration.Location = new System.Drawing.Point(79, 237);
+            this.textDuration.Location = new System.Drawing.Point(78, 280);
             this.textDuration.Name = "textDuration";
-            this.textDuration.Size = new System.Drawing.Size(84, 21);
+            this.textDuration.Size = new System.Drawing.Size(100, 21);
             this.textDuration.TabIndex = 68;
             this.textDuration.Text = "1";
             // 
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(167, 240);
+            this.label18.Location = new System.Drawing.Point(184, 283);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(17, 12);
             this.label18.TabIndex = 67;
@@ -729,7 +664,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(20, 240);
+            this.label19.Location = new System.Drawing.Point(19, 283);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(53, 12);
             this.label19.TabIndex = 66;
@@ -737,7 +672,7 @@
             // 
             // btnReCount
             // 
-            this.btnReCount.Location = new System.Drawing.Point(90, 371);
+            this.btnReCount.Location = new System.Drawing.Point(90, 418);
             this.btnReCount.Name = "btnReCount";
             this.btnReCount.Size = new System.Drawing.Size(65, 23);
             this.btnReCount.TabIndex = 65;
@@ -748,7 +683,7 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(149, 292);
+            this.label23.Location = new System.Drawing.Point(148, 335);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(71, 12);
             this.label23.TabIndex = 64;
@@ -756,7 +691,7 @@
             // 
             // numCount
             // 
-            this.numCount.Location = new System.Drawing.Point(79, 289);
+            this.numCount.Location = new System.Drawing.Point(78, 332);
             this.numCount.Maximum = new decimal(new int[] {
             -727379969,
             232,
@@ -769,7 +704,7 @@
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(21, 292);
+            this.label22.Location = new System.Drawing.Point(20, 335);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(53, 12);
             this.label22.TabIndex = 63;
@@ -826,24 +761,24 @@
             // 
             // numDelay
             // 
-            this.numDelay.Location = new System.Drawing.Point(79, 262);
+            this.numDelay.Location = new System.Drawing.Point(78, 305);
             this.numDelay.Name = "numDelay";
-            this.numDelay.Size = new System.Drawing.Size(84, 21);
+            this.numDelay.Size = new System.Drawing.Size(100, 21);
             this.numDelay.TabIndex = 55;
             this.numDelay.Text = "1";
             // 
             // numTime
             // 
-            this.numTime.Location = new System.Drawing.Point(80, 213);
+            this.numTime.Location = new System.Drawing.Point(79, 256);
             this.numTime.Name = "numTime";
-            this.numTime.Size = new System.Drawing.Size(84, 21);
+            this.numTime.Size = new System.Drawing.Size(100, 21);
             this.numTime.TabIndex = 54;
             this.numTime.Text = "1";
             // 
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(167, 265);
+            this.label14.Location = new System.Drawing.Point(184, 308);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(17, 12);
             this.label14.TabIndex = 53;
@@ -851,7 +786,7 @@
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(24, 372);
+            this.btnReset.Location = new System.Drawing.Point(24, 419);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(65, 23);
             this.btnReset.TabIndex = 50;
@@ -871,7 +806,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(20, 265);
+            this.label15.Location = new System.Drawing.Point(19, 308);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(53, 12);
             this.label15.TabIndex = 51;
@@ -921,15 +856,176 @@
             this.label5.TabIndex = 44;
             this.label5.Text = "键盘";
             // 
+            // txtSample
+            // 
+            this.txtSample.Location = new System.Drawing.Point(80, 208);
+            this.txtSample.Name = "txtSample";
+            this.txtSample.Size = new System.Drawing.Size(98, 21);
+            this.txtSample.TabIndex = 71;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(21, 211);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(53, 12);
+            this.label20.TabIndex = 70;
+            this.label20.Text = "样本路径";
+            // 
+            // btnSelectSample
+            // 
+            this.btnSelectSample.Location = new System.Drawing.Point(184, 206);
+            this.btnSelectSample.Name = "btnSelectSample";
+            this.btnSelectSample.Size = new System.Drawing.Size(44, 23);
+            this.btnSelectSample.TabIndex = 72;
+            this.btnSelectSample.Text = "选取";
+            this.btnSelectSample.UseVisualStyleBackColor = true;
+            this.btnSelectSample.Click += new System.EventHandler(this.btnSelectSample_Click);
+            // 
+            // txtRemark
+            // 
+            this.txtRemark.Location = new System.Drawing.Point(79, 232);
+            this.txtRemark.Name = "txtRemark";
+            this.txtRemark.Size = new System.Drawing.Size(100, 21);
+            this.txtRemark.TabIndex = 74;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(32, 235);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(29, 12);
+            this.label24.TabIndex = 73;
+            this.label24.Text = "备注";
+            // 
+            // Column1
+            // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Column1.DataPropertyName = "type";
+            this.Column1.HeaderText = "任务";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            this.Column1.Width = 54;
+            // 
+            // Column14
+            // 
+            this.Column14.DataPropertyName = "remark";
+            this.Column14.HeaderText = "备注";
+            this.Column14.Name = "Column14";
+            this.Column14.ReadOnly = true;
+            this.Column14.Width = 50;
+            // 
+            // Column2
+            // 
+            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Column2.DataPropertyName = "time";
+            this.Column2.HeaderText = "间隔(ms)";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            this.Column2.Width = 78;
+            // 
+            // Column3
+            // 
+            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Column3.DataPropertyName = "less";
+            this.Column3.HeaderText = "下次(ms)";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            this.Column3.Width = 78;
+            // 
+            // Column4
+            // 
+            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Column4.DataPropertyName = "content";
+            this.Column4.HeaderText = "内容";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            this.Column4.Width = 54;
+            // 
+            // Column5
+            // 
+            this.Column5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Column5.DataPropertyName = "x";
+            this.Column5.HeaderText = "X坐标";
+            this.Column5.Name = "Column5";
+            this.Column5.ReadOnly = true;
+            this.Column5.Width = 60;
+            // 
+            // Column6
+            // 
+            this.Column6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Column6.DataPropertyName = "y";
+            this.Column6.HeaderText = "Y坐标";
+            this.Column6.Name = "Column6";
+            this.Column6.ReadOnly = true;
+            this.Column6.Width = 60;
+            // 
+            // Column8
+            // 
+            this.Column8.DataPropertyName = "duration";
+            this.Column8.HeaderText = "持续时间(ms)";
+            this.Column8.Name = "Column8";
+            this.Column8.ReadOnly = true;
+            this.Column8.Width = 90;
+            // 
+            // Column7
+            // 
+            this.Column7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Column7.DataPropertyName = "delay";
+            this.Column7.HeaderText = "后置延迟(ms)";
+            this.Column7.Name = "Column7";
+            this.Column7.ReadOnly = true;
+            this.Column7.Width = 102;
+            // 
+            // Column10
+            // 
+            this.Column10.DataPropertyName = "count";
+            this.Column10.HeaderText = "运行次数";
+            this.Column10.Name = "Column10";
+            this.Column10.ReadOnly = true;
+            this.Column10.Width = 80;
+            // 
+            // Column11
+            // 
+            this.Column11.DataPropertyName = "countLess";
+            this.Column11.HeaderText = "已运行次数";
+            this.Column11.Name = "Column11";
+            this.Column11.ReadOnly = true;
+            this.Column11.Width = 90;
+            // 
+            // Column12
+            // 
+            this.Column12.DataPropertyName = "typeName";
+            this.Column12.HeaderText = "typeName";
+            this.Column12.Name = "Column12";
+            this.Column12.ReadOnly = true;
+            this.Column12.Visible = false;
+            // 
+            // Column13
+            // 
+            this.Column13.DataPropertyName = "pathSample";
+            this.Column13.HeaderText = "样本路径";
+            this.Column13.Name = "Column13";
+            this.Column13.ReadOnly = true;
+            // 
+            // Column9
+            // 
+            this.Column9.DataPropertyName = "contentName";
+            this.Column9.HeaderText = "描述";
+            this.Column9.Name = "Column9";
+            this.Column9.ReadOnly = true;
+            this.Column9.Width = 90;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1368, 558);
+            this.ClientSize = new System.Drawing.Size(1314, 701);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel1);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "繁星按键小工具";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.posX)).EndInit();
@@ -1018,7 +1114,16 @@
         private System.Windows.Forms.TextBox textDuration;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Button btnSetTime;
+        private System.Windows.Forms.Button btnDown;
+        private System.Windows.Forms.Button btnUp;
+        private System.Windows.Forms.TextBox txtSample;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Button btnSelectSample;
+        private System.Windows.Forms.TextBox txtRemark;
+        private System.Windows.Forms.Label label24;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column14;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
@@ -1029,8 +1134,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
-        private System.Windows.Forms.Button btnSetTime;
     }
 }
 

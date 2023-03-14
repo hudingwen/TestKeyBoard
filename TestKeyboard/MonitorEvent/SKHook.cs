@@ -248,6 +248,14 @@ namespace TestKeyboard.MonitorEvent
                     return false;
                 }
             }
+            return true;
+        }
+
+        public bool InstallHook_key()
+        {
+            IntPtr pInstance = Marshal.GetHINSTANCE(Assembly.GetExecutingAssembly().ManifestModule);
+
+            // 假如没有安装鼠标钩子
             if (this.m_pKeyboardHook == IntPtr.Zero)
             {
                 this.m_KeyboardHookProcedure = new HookProc(this.KeyboardHookProc);
@@ -259,7 +267,6 @@ namespace TestKeyboard.MonitorEvent
                     return false;
                 }
             }
-
             return true;
         }
 
@@ -275,12 +282,20 @@ namespace TestKeyboard.MonitorEvent
                 result = (Win32API.UnhookWindowsHookEx(this.m_pMouseHook) && result);
                 this.m_pMouseHook = IntPtr.Zero;
             }
+            return result;
+        }
+        /// <summary>
+        /// 卸载钩子
+        /// </summary>
+        /// <returns></returns>
+        public bool UnInstallHook_key()
+        {
+            bool result = true;
             if (this.m_pKeyboardHook != IntPtr.Zero)
             {
                 result = (Win32API.UnhookWindowsHookEx(this.m_pKeyboardHook) && result);
                 this.m_pKeyboardHook = IntPtr.Zero;
             }
-
             return result;
         }
 

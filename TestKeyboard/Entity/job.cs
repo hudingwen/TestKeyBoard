@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TestKeyboard.Entity
 {
-    public class job
+    public class Job
     {
         /// <summary>
         /// 任务间隔时间(秒)
@@ -19,7 +19,7 @@ namespace TestKeyboard.Entity
         /// <summary>
         /// 任务类型
         /// </summary>
-        public jobType type { get; set; }
+        public JobType type { get; set; }
         public string typeName { get; set; }
         /// <summary>
         /// 任务内容
@@ -50,5 +50,18 @@ namespace TestKeyboard.Entity
         /// 已经运行次数
         /// </summary>
         public int countLess { get; set; }
+        /// <summary>
+        /// 子任务
+        /// </summary>
+        public List<Job> children { get; set; }
+        /// <summary>
+        /// 样本路径
+        /// </summary>
+        public string pathSample { get; set; }
+
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string remark { get; set; }
     }
 }

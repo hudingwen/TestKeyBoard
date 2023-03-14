@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -41,6 +42,43 @@ namespace TestKeyboard.Screen
             Int32 drRop         //光栅的操作值
 
             );
+
+
+        public static Image GetScreen(string windowName)
+        {
+
+            Rectangle wind = Foreground.GetWindowRect(windowName);
+            //创建显示器的DC
+            IntPtr dcScreen = CreateDC("DISPLAY", null, null, (IntPtr)null);
+
+            //由一个指定设备的句柄创建一个新的Graphics对象
+            Graphics g1 = Graphics.FromHdc(dcScreen);
+            Image MyImage = null;
+            int tmpWidth, tmpHeigth;
+
+
+            //获得保存图片的质量
+            long level = 100; //0-100
+
+
+            int X = Convert.ToInt32(wind.X);//起始X坐标
+            int Y = Convert.ToInt32(wind.Y);//起始Y坐标
+            int Width = Convert.ToInt32(wind.Width);//截图宽度
+            int Height = Convert.ToInt32(wind.Height);//截图高度
+
+            MyImage = new Bitmap(Width, Height, g1);
+            Graphics g2 = Graphics.FromImage(MyImage);
+            IntPtr dc1 = g1.GetHdc();
+            IntPtr dc2 = g2.GetHdc();
+
+            BitBlt(dc2, 0, 0, Width, Height, dc1, X, Y, 13369376);
+            g1.ReleaseHdc(dc1);
+            g2.ReleaseHdc(dc2);
+
+            //SaveImageWithQuality(Myimage, level);
+            //this.pictureBox1.Image = Myimage; 
+            return MyImage;
+        }
         /// <summary>
         /// 截图
         /// </summary>
@@ -50,7 +88,7 @@ namespace TestKeyboard.Screen
         /// <param name="cWidth">截图宽度</param>
         /// <param name="cHeight">截图高度</param>
         /// <returns></returns>
-        public static Image GetScreen(bool isFullScreen=true,int posX=0,int posY = 0, int cWidth=200,int cHeight = 100)
+        public static Image GetScreen(bool isFullScreen = true, int posX = 0, int posY = 0, int cWidth = 200, int cHeight = 100)
         {
             //创建显示器的DC
             IntPtr dcScreen = CreateDC("DISPLAY", null, null, (IntPtr)null);
@@ -62,7 +100,7 @@ namespace TestKeyboard.Screen
 
 
             //获得保存图片的质量
-            long level = 50; //0-100
+            long level = 100; //0-100
 
 
             //如果是全屏捕获 
@@ -71,7 +109,7 @@ namespace TestKeyboard.Screen
                 //tmpWidth = 0;//屏幕宽度
                 //tmpHeigth = 0;//屏幕高度
                 tmpWidth = PressClick.GetSystemMetrics(SystemMetric.SM_CXSCREEN);
-                tmpHeigth = PressClick. GetSystemMetrics(SystemMetric.SM_CYSCREEN);
+                tmpHeigth = PressClick.GetSystemMetrics(SystemMetric.SM_CYSCREEN);
                 MyImage = new Bitmap(tmpWidth, tmpHeigth, g1);
 
                 //创建位图图形对象
@@ -122,8 +160,12 @@ namespace TestKeyboard.Screen
         /// <param name="savePath">保存路径</param>
         /// <param name="bmp">图片</param>
         /// <param name="level">图片质量(0-100)</param>
-        public static void SaveImageWithQuality(string savePath,Image bmp, long level)
-        { 
+        public static void SaveImageWithQuality(string savePath, Image bmp, long level)
+        {
+            var dic = Path.GetDirectoryName(savePath);
+            if (!Directory.Exists(dic))
+                Directory.CreateDirectory(dic);
+
             ImageCodecInfo jgpEncoder = GetEncoder(ImageFormat.Png);
             System.Drawing.Imaging.Encoder myEncoder =
                 System.Drawing.Imaging.Encoder.Quality;

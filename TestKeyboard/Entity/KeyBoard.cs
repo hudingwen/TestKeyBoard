@@ -13,6 +13,8 @@ namespace TestKeyboard.PressKey
         Tab = 9,
         Clear = 12,
         Enter = 13,
+        Shift = 16,
+        Control = 17,
         Alt = 18,
         Pause = 19,
         Escape = 27,
@@ -154,7 +156,6 @@ namespace TestKeyboard.PressKey
         NoName = 252,
         Pa1 = 253,
         OemClear = 254,
-        NumLock = 144,
-        截图=1000
+        NumLock = 144
     }
 }
