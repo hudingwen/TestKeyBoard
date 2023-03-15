@@ -20,6 +20,10 @@ using System.Runtime.InteropServices;
 using System.Data;
 using System.Net;
 using System.Threading.Tasks;
+using Gma.QrCodeNet.Encoding.Windows.Render;
+using Gma.QrCodeNet.Encoding;
+using System.Drawing.Imaging;
+using System.Configuration;
 
 namespace TestKeyboard
 {
@@ -105,7 +109,7 @@ namespace TestKeyboard
                 SetText(ex.Message);
             }
         }
-
+        public string pushApi;
         public DateTime runTime = DateTime.MinValue;//运行时间 
         public bool isStaring = false;//开启标志
         public List<Job> jobs = new List<Job>();
@@ -121,6 +125,9 @@ namespace TestKeyboard
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            pushApi = ConfigurationManager.AppSettings["pushApi"];
+            //获得微信绑定id
+            CheckID();
             //开启日志显示
             Action log = new Action(() => { });
             log.BeginInvoke(ShowLog, null);
@@ -445,15 +452,12 @@ namespace TestKeyboard
                         var screen = ScreenCat.GetScreen(item.content.ToString());
                         var savePath = Path.Combine(Application.StartupPath, "pics", $"{DateTime.Now.ToString("yyyMMddHHmmss")}.jpg");
                         ScreenCat.SaveImageWithQuality(savePath, screen, 100);
-                        pictureBox1.Image = screen;
+                        picCut.Image = screen;
                         SetText($"截图成功:{savePath}");
 
                         Task.Run(() => { CheckPicture(savePath, CheckType.一般测谎); });
                         Task.Run(() => { CheckPicture(savePath, CheckType.解轮检测); });
-                        Task.Run(() => { CheckPicture(savePath, CheckType.蘑菇测谎); });
-                        Task.Run(() => { CheckPicture(savePath, CheckType.蘑菇测谎_2); });
-                        Task.Run(() => { CheckPicture(savePath, CheckType.蘑菇测谎_3); });
-                        Task.Run(() => { CheckPicture(savePath, CheckType.蘑菇测谎_4); });
+                        Task.Run(() => { CheckPicture(savePath, CheckType.蘑菇测谎); }); 
                     }
                     //后置延迟
                     if (item.delay > 0)
@@ -485,33 +489,33 @@ namespace TestKeyboard
                 p.StartInfo.UseShellExecute = false;  // 如果使用StandardOutput接收，这项必须为false（来自官方文档）
                 p.StartInfo.CreateNoWindow = true;  // 是否创建窗口，true为不创建
                 p.StartInfo.RedirectStandardOutput = true;  // 使用StandardOutput接收，一定要重定向标准输出，否则会报InvalidOperationException异常 
-                //p.StartInfo.RedirectStandardInput = true;
+                p.StartInfo.RedirectStandardInput = true;
                 p.StartInfo.RedirectStandardError = true;
-                p.StartInfo.FileName = "python"; // 设置要执行的Python脚本名称
 
-                var myScript = "D:/hudingwen/github/my-OpenCV-Python/043-find_lun.py";
+                //p.StartInfo.StandardOutputEncoding = Encoding.UTF8;
+
+                //p.StartInfo.StandardErrorEncoding = Encoding.UTF8;
+               
+               
+
+                var myScript = Path.Combine(Application.StartupPath, "043-find_lun.exe");
+
+              
                 var mySample = "";
                 if (checkType == CheckType.解轮检测)
-                    mySample = "D:/hudingwen/github/my-OpenCV-Python/pic/mxd/test/lun.png";
+                    mySample = Path.Combine(Application.StartupPath, "lun.png");
                 else if (checkType == CheckType.蘑菇测谎)
-                    mySample = "D:/hudingwen/github/my-OpenCV-Python/pic/mxd/test/mogu.png";
-                else if (checkType == CheckType.蘑菇测谎_2)
-                    mySample = "D:/hudingwen/github/my-OpenCV-Python/pic/mxd/test/mogu2.png";
-                else if (checkType == CheckType.蘑菇测谎_3)
-                    mySample = "D:/hudingwen/github/my-OpenCV-Python/pic/mxd/test/mogu3.png";
-                else if (checkType == CheckType.蘑菇测谎_4)
-                    mySample = "D:/hudingwen/github/my-OpenCV-Python/pic/mxd/test/mogu4.png";
+                    mySample = Path.Combine(Application.StartupPath, "mogu.png");
                 else if (checkType == CheckType.一般测谎)
                 {
-                    myScript = "D:/hudingwen/github/my-OpenCV-Python/045-blob_4.py";
+                    myScript = Path.Combine(Application.StartupPath, "045-blob_4.exe");
                     mySample = savePath;
                 }
                 else
                     return;
-                //
-                // var myResource = "D:/hudingwen/github/my-OpenCV-Python/pic/mxd/test/lun1.jpg";
+                p.StartInfo.FileName = myScript; // 设置要执行的Python脚本名称
                 var myResource = savePath;
-                p.StartInfo.Arguments = $"{myScript} {mySample} {myResource}";  // 设置参数
+                p.StartInfo.Arguments = $"{mySample} {myResource}";  // 设置参数
                 p.Start();  // 启动进程
                 msg_success = p.StandardOutput.ReadToEnd();  // 接收信息 
                 msg_error = p.StandardError.ReadToEnd(); //接收错误信息
@@ -523,7 +527,7 @@ namespace TestKeyboard
                 else
                 {
                     //正常返回
-                    SetText(msg_success);
+                    SetText($"{checkType}-{msg_success}");
                     MessageModel resMsg  = new MessageModel();
                     try
                     {
@@ -533,30 +537,21 @@ namespace TestKeyboard
                     { 
                         
                     }
-                    if (resMsg.success)
+                    if (resMsg.success && !string.IsNullOrEmpty(wechatid))
                     {
                         //SetText($"脚本地址:{myScript}");
                         //SetText($"样本地址:{mySample}");
                         //SetText($"截图地址:{myResource}");
                         //成功识别
-                        var url = $"";
-
-                        string ret = string.Empty;
+                        var url = $"{pushApi}/api/WeChat/PushCardMsgGet?info.id=test&info.companyCode=test&info.userID={wechatid}&cardMsg.template_id=_eLuhnhPQMqVagS3SUyIlbYfi0gltTd4R0Jiq69gJA4&cardMsg.first={checkType.ToString()}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}\r\n截图地址:{Path.GetFileName(myResource)}";
                         try
                         {
-                            //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls13;
-
-                            //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                            HttpWebRequest webReq = (HttpWebRequest)WebRequest.Create(url);
-                            webReq.Method = "GET";
-                            webReq.ContentType = "application/json";
-                            //webReq.Headers.Add("Authorization", "bearer ********");
-                            //Stream postData = webReq.GetRequestStream();
-                            //postData.Close();
-                            HttpWebResponse webResp = (HttpWebResponse)webReq.GetResponse();
-                            StreamReader sr = new StreamReader(webResp.GetResponseStream(), Encoding.UTF8);
-                            ret = sr.ReadToEnd();
-                            SetText($"微信推送:{ret}");
+                            string res = httpClient.GetStringAsync(url).Result;
+                            WechatModel data = JsonConvert.DeserializeObject<WechatModel>(res);
+                            if (data.success)
+                            {
+                                SetText("微信消息推送成");
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -784,7 +779,6 @@ namespace TestKeyboard
                     job = new Job
                     {
                         content = this.windowName.Text,
-                        pathSample = this.txtSample.Text,
                     };
                 }
                 jobs.Add(job);
@@ -943,7 +937,7 @@ namespace TestKeyboard
                 var screen = ScreenCat.GetScreen(windowName.Text);
                 var savePath = Path.Combine(Application.StartupPath, "pics", $"{DateTime.Now.ToString("yyyMMddHHmmss")}.jpg");
                 ScreenCat.SaveImageWithQuality(savePath, screen, 100);
-                pictureBox1.Image = screen;
+                picCut.Image = screen;
                 SetText($"截图成功:{savePath}");
             }
             catch (Exception ex)
@@ -1233,7 +1227,7 @@ namespace TestKeyboard
                 openFileDialog.Filter = "png|*.png|jpg|*.jpg";
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    txtSample.Text = openFileDialog.FileName;
+                    //txtSample.Text = openFileDialog.FileName;
                 }
             }
             catch (Exception ex)
@@ -1241,5 +1235,96 @@ namespace TestKeyboard
                 SetText(ex.Message);
             }
         }
+
+        public string wechatid { get; set; }
+
+        private void btn_wechat_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Guid guid = new Guid();
+                guid = Guid.NewGuid();
+                string id = guid.ToString("N");
+                var url = $"{pushApi}/api/WeChat/GetQRBind?id=test&companyCode=test&userID={id}";
+
+                var res = httpClient.GetStringAsync(url).Result;
+
+                WechatModel data =JsonConvert.DeserializeObject<WechatModel>(res);
+                if (data.success)
+                {
+                    var dic = Path.Combine(Application.StartupPath, "config");
+                    if (!Directory.Exists(dic)) Directory.CreateDirectory(dic);
+                    var config = Path.Combine(dic, "id.config");
+                    File.WriteAllText(config, id);
+
+                    QrEncoder qrEncoder = new QrEncoder(ErrorCorrectionLevel.H);
+                    QrCode qrCode = new QrCode();
+                    qrEncoder.TryEncode(data.response.usersData.url, out qrCode);
+
+                    GraphicsRenderer renderer = new GraphicsRenderer(new FixedModuleSize(5, QuietZoneModules.Two), Brushes.Black, Brushes.White);
+
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        renderer.WriteToStream(qrCode.Matrix, ImageFormat.Png, ms);
+                        Image img = Image.FromStream(ms);
+                        picWeChat.Image = img;
+                    }
+                    btn_wechat.Enabled = false;
+                    wechatid = id;
+                    Task.Run(CheckIsBind);
+                }
+                SetText("获取绑定二维码成功");
+
+            }
+            catch (Exception ex)
+            {
+                SetText(ex.Message);
+            }
+        }
+
+        public void CheckIsBind()
+        {
+            try
+            {
+                int i = 0;
+                while (i < 10)
+                {
+                    Thread.Sleep(10000);
+                    var url = $"{pushApi}/api/WeChat/GetBindUserInfo?id=test&companyCode=test&userID={wechatid}";
+                    var res = httpClient.GetStringAsync(url).Result;
+                    WechatModel data = JsonConvert.DeserializeObject<WechatModel>(res);
+                    if (data.success)
+                    {
+                        SetText("微信绑定成功");
+                        break;
+                    }
+                    i++;
+                }
+            }
+            catch (Exception ex)
+            {
+                SetText(ex.Message);
+            }
+        }
+        public void CheckID()
+        {
+            try
+            {
+                var dic = Path.Combine(Application.StartupPath, "config");
+                if (!Directory.Exists(dic)) Directory.CreateDirectory(dic);
+                var config = Path.Combine(dic, "id.config");
+                if(File.Exists(config))
+                {
+                    btn_wechat.Enabled = false;
+                    wechatid = File.ReadAllText(config);
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                SetText(ex.Message);
+            }
+        }
+        
     }
 }
