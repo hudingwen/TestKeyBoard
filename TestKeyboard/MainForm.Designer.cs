@@ -29,13 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.button2 = new System.Windows.Forms.Button();
             this.richLogs = new System.Windows.Forms.RichTextBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
             this.windowName = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.button10 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.posX = new System.Windows.Forms.NumericUpDown();
@@ -44,23 +40,6 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.gridJobs = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.btnDel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -73,40 +52,29 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel7 = new System.Windows.Forms.Panel();
+            this.gridJobs = new DevExpress.XtraGrid.GridControl();
+            this.viewJobs = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.btn_wechat = new System.Windows.Forms.Button();
             this.picWeChat = new System.Windows.Forms.PictureBox();
-            this.btntest_stop = new System.Windows.Forms.Button();
-            this.btnTest = new System.Windows.Forms.Button();
-            this.checkScreen = new System.Windows.Forms.CheckBox();
             this.numHeight = new System.Windows.Forms.NumericUpDown();
             this.numWidth = new System.Windows.Forms.NumericUpDown();
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.picCut = new System.Windows.Forms.PictureBox();
-            this.button7 = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
             this.txtRemark = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
-            this.btnDown = new System.Windows.Forms.Button();
-            this.btnSetTime = new System.Windows.Forms.Button();
-            this.btnUp = new System.Windows.Forms.Button();
             this.textDuration = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
-            this.btnReCount = new System.Windows.Forms.Button();
             this.label23 = new System.Windows.Forms.Label();
             this.numCount = new System.Windows.Forms.NumericUpDown();
             this.label22 = new System.Windows.Forms.Label();
-            this.btRefresh = new System.Windows.Forms.Button();
-            this.btnRm = new System.Windows.Forms.Button();
-            this.btnNew = new System.Windows.Forms.Button();
             this.comTask = new System.Windows.Forms.ComboBox();
             this.label21 = new System.Windows.Forms.Label();
             this.numDelay = new System.Windows.Forms.TextBox();
             this.numTime = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
-            this.btnReset = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.jobName = new System.Windows.Forms.TextBox();
@@ -114,14 +82,39 @@
             this.label12 = new System.Windows.Forms.Label();
             this.comBoard = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.btnStopMusic = new DevExpress.XtraEditors.SimpleButton();
+            this.checkMusic = new DevExpress.XtraEditors.CheckEdit();
+            this.checkAysnc = new DevExpress.XtraEditors.CheckEdit();
+            this.btn_wechat = new DevExpress.XtraEditors.SimpleButton();
+            this.btnNew = new DevExpress.XtraEditors.SimpleButton();
+            this.btnRm = new DevExpress.XtraEditors.SimpleButton();
+            this.btRefresh = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton1 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton2 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton3 = new DevExpress.XtraEditors.SimpleButton();
+            this.simpleButton4 = new DevExpress.XtraEditors.SimpleButton();
+            this.btnSetTask = new DevExpress.XtraEditors.SimpleButton();
+            this.btnSetTime = new DevExpress.XtraEditors.SimpleButton();
+            this.btnReCount = new DevExpress.XtraEditors.SimpleButton();
+            this.btnReset = new DevExpress.XtraEditors.SimpleButton();
+            this.btnDown = new DevExpress.XtraEditors.SimpleButton();
+            this.btnUp = new DevExpress.XtraEditors.SimpleButton();
+            this.button10 = new DevExpress.XtraEditors.SimpleButton();
+            this.button7 = new DevExpress.XtraEditors.SimpleButton();
+            this.checkScreen = new DevExpress.XtraEditors.CheckEdit();
+            this.btntest_stop = new DevExpress.XtraEditors.SimpleButton();
+            this.btnTest = new DevExpress.XtraEditors.SimpleButton();
+            this.button5 = new DevExpress.XtraEditors.SimpleButton();
+            this.comMusic = new DevExpress.XtraEditors.ComboBoxEdit();
             ((System.ComponentModel.ISupportInitialize)(this.posX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.posY)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridJobs)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridJobs)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.viewJobs)).BeginInit();
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picWeChat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numHeight)).BeginInit();
@@ -129,17 +122,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.picCut)).BeginInit();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkMusic.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkAysnc.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkScreen.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comMusic.Properties)).BeginInit();
             this.SuspendLayout();
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(23, 366);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(97, 23);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "开始(鼠标中键)";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.Button2_Click);
             // 
             // richLogs
             // 
@@ -147,29 +134,9 @@
             this.richLogs.Location = new System.Drawing.Point(0, 0);
             this.richLogs.Name = "richLogs";
             this.richLogs.ReadOnly = true;
-            this.richLogs.Size = new System.Drawing.Size(1352, 212);
+            this.richLogs.Size = new System.Drawing.Size(1376, 163);
             this.richLogs.TabIndex = 2;
             this.richLogs.Text = "";
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(126, 366);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(106, 23);
-            this.button4.TabIndex = 4;
-            this.button4.Text = "停止(鼠标中键)";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(14, 254);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 6;
-            this.button5.Text = "聚焦测试";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // windowName
             // 
@@ -187,16 +154,6 @@
             this.label4.Size = new System.Drawing.Size(53, 12);
             this.label4.TabIndex = 10;
             this.label4.Text = "窗体名称";
-            // 
-            // button10
-            // 
-            this.button10.Location = new System.Drawing.Point(14, 21);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(238, 23);
-            this.button10.TabIndex = 18;
-            this.button10.Text = "实时获取鼠标位置(F1停止)";
-            this.button10.UseVisualStyleBackColor = true;
-            this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
             // label6
             // 
@@ -276,172 +233,6 @@
             this.label9.TabIndex = 35;
             this.label9.Text = "小时";
             // 
-            // gridJobs
-            // 
-            this.gridJobs.AllowUserToAddRows = false;
-            this.gridJobs.AllowUserToDeleteRows = false;
-            this.gridJobs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.gridJobs.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column14,
-            this.Column2,
-            this.Column3,
-            this.Column4,
-            this.Column5,
-            this.Column6,
-            this.Column8,
-            this.Column7,
-            this.Column10,
-            this.Column11,
-            this.Column12,
-            this.Column13,
-            this.Column9});
-            this.gridJobs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridJobs.Location = new System.Drawing.Point(0, 0);
-            this.gridJobs.Name = "gridJobs";
-            this.gridJobs.ReadOnly = true;
-            this.gridJobs.RowTemplate.Height = 23;
-            this.gridJobs.Size = new System.Drawing.Size(834, 677);
-            this.gridJobs.TabIndex = 36;
-            // 
-            // Column1
-            // 
-            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Column1.DataPropertyName = "type";
-            this.Column1.HeaderText = "任务";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            this.Column1.Width = 54;
-            // 
-            // Column14
-            // 
-            this.Column14.DataPropertyName = "remark";
-            this.Column14.HeaderText = "备注";
-            this.Column14.Name = "Column14";
-            this.Column14.ReadOnly = true;
-            this.Column14.Width = 50;
-            // 
-            // Column2
-            // 
-            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Column2.DataPropertyName = "time";
-            this.Column2.HeaderText = "间隔(ms)";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            this.Column2.Width = 78;
-            // 
-            // Column3
-            // 
-            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Column3.DataPropertyName = "less";
-            this.Column3.HeaderText = "下次(ms)";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            this.Column3.Width = 78;
-            // 
-            // Column4
-            // 
-            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Column4.DataPropertyName = "content";
-            this.Column4.HeaderText = "内容";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            this.Column4.Width = 54;
-            // 
-            // Column5
-            // 
-            this.Column5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Column5.DataPropertyName = "x";
-            this.Column5.HeaderText = "X坐标";
-            this.Column5.Name = "Column5";
-            this.Column5.ReadOnly = true;
-            this.Column5.Width = 60;
-            // 
-            // Column6
-            // 
-            this.Column6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Column6.DataPropertyName = "y";
-            this.Column6.HeaderText = "Y坐标";
-            this.Column6.Name = "Column6";
-            this.Column6.ReadOnly = true;
-            this.Column6.Width = 60;
-            // 
-            // Column8
-            // 
-            this.Column8.DataPropertyName = "duration";
-            this.Column8.HeaderText = "持续时间(ms)";
-            this.Column8.Name = "Column8";
-            this.Column8.ReadOnly = true;
-            this.Column8.Width = 90;
-            // 
-            // Column7
-            // 
-            this.Column7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Column7.DataPropertyName = "delay";
-            this.Column7.HeaderText = "后置延迟(ms)";
-            this.Column7.Name = "Column7";
-            this.Column7.ReadOnly = true;
-            this.Column7.Width = 102;
-            // 
-            // Column10
-            // 
-            this.Column10.DataPropertyName = "count";
-            this.Column10.HeaderText = "运行次数";
-            this.Column10.Name = "Column10";
-            this.Column10.ReadOnly = true;
-            this.Column10.Width = 80;
-            // 
-            // Column11
-            // 
-            this.Column11.DataPropertyName = "countLess";
-            this.Column11.HeaderText = "已运行次数";
-            this.Column11.Name = "Column11";
-            this.Column11.ReadOnly = true;
-            this.Column11.Width = 90;
-            // 
-            // Column12
-            // 
-            this.Column12.DataPropertyName = "typeName";
-            this.Column12.HeaderText = "typeName";
-            this.Column12.Name = "Column12";
-            this.Column12.ReadOnly = true;
-            this.Column12.Visible = false;
-            // 
-            // Column13
-            // 
-            this.Column13.DataPropertyName = "pathSample";
-            this.Column13.HeaderText = "样本路径";
-            this.Column13.Name = "Column13";
-            this.Column13.ReadOnly = true;
-            // 
-            // Column9
-            // 
-            this.Column9.DataPropertyName = "contentName";
-            this.Column9.HeaderText = "描述";
-            this.Column9.Name = "Column9";
-            this.Column9.ReadOnly = true;
-            this.Column9.Width = 90;
-            // 
-            // btnAdd
-            // 
-            this.btnAdd.Location = new System.Drawing.Point(23, 337);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(65, 23);
-            this.btnAdd.TabIndex = 37;
-            this.btnAdd.Text = "添加";
-            this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-            // 
-            // btnDel
-            // 
-            this.btnDel.Location = new System.Drawing.Point(90, 337);
-            this.btnDel.Name = "btnDel";
-            this.btnDel.Size = new System.Drawing.Size(65, 23);
-            this.btnDel.TabIndex = 38;
-            this.btnDel.Text = "删除";
-            this.btnDel.UseVisualStyleBackColor = true;
-            this.btnDel.Click += new System.EventHandler(this.btnDel_Click);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -482,9 +273,9 @@
             // 
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 677);
+            this.panel1.Location = new System.Drawing.Point(0, 783);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1352, 24);
+            this.panel1.Size = new System.Drawing.Size(1376, 24);
             this.panel1.TabIndex = 45;
             // 
             // panel2
@@ -497,7 +288,7 @@
             this.panel2.Controls.Add(this.label8);
             this.panel2.Controls.Add(this.label11);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(1087, 0);
+            this.panel2.Location = new System.Drawing.Point(1111, 0);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(265, 24);
             this.panel2.TabIndex = 36;
@@ -533,9 +324,9 @@
             // 
             this.panel3.Controls.Add(this.richLogs);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(0, 465);
+            this.panel3.Location = new System.Drawing.Point(0, 620);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1352, 212);
+            this.panel3.Size = new System.Drawing.Size(1376, 163);
             this.panel3.TabIndex = 46;
             // 
             // panel4
@@ -546,93 +337,67 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(0, 0);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1352, 677);
+            this.panel4.Size = new System.Drawing.Size(1376, 620);
             this.panel4.TabIndex = 47;
             // 
             // panel7
             // 
             this.panel7.Controls.Add(this.gridJobs);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel7.Location = new System.Drawing.Point(253, 0);
+            this.panel7.Location = new System.Drawing.Point(268, 0);
             this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(834, 677);
+            this.panel7.Size = new System.Drawing.Size(843, 620);
             this.panel7.TabIndex = 2;
+            // 
+            // gridJobs
+            // 
+            this.gridJobs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridJobs.Location = new System.Drawing.Point(0, 0);
+            this.gridJobs.MainView = this.viewJobs;
+            this.gridJobs.Name = "gridJobs";
+            this.gridJobs.Size = new System.Drawing.Size(843, 620);
+            this.gridJobs.TabIndex = 37;
+            this.gridJobs.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.viewJobs});
+            // 
+            // viewJobs
+            // 
+            this.viewJobs.GridControl = this.gridJobs;
+            this.viewJobs.Name = "viewJobs";
             // 
             // panel6
             // 
+            this.panel6.Controls.Add(this.btntest_stop);
+            this.panel6.Controls.Add(this.checkScreen);
+            this.panel6.Controls.Add(this.btnTest);
+            this.panel6.Controls.Add(this.button5);
+            this.panel6.Controls.Add(this.button7);
+            this.panel6.Controls.Add(this.button10);
             this.panel6.Controls.Add(this.btn_wechat);
             this.panel6.Controls.Add(this.picWeChat);
-            this.panel6.Controls.Add(this.btntest_stop);
-            this.panel6.Controls.Add(this.btnTest);
-            this.panel6.Controls.Add(this.checkScreen);
             this.panel6.Controls.Add(this.numHeight);
             this.panel6.Controls.Add(this.numWidth);
             this.panel6.Controls.Add(this.label16);
             this.panel6.Controls.Add(this.label17);
             this.panel6.Controls.Add(this.picCut);
-            this.panel6.Controls.Add(this.button7);
             this.panel6.Controls.Add(this.posY);
-            this.panel6.Controls.Add(this.button5);
             this.panel6.Controls.Add(this.posX);
             this.panel6.Controls.Add(this.label7);
             this.panel6.Controls.Add(this.label6);
-            this.panel6.Controls.Add(this.button10);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel6.Location = new System.Drawing.Point(1087, 0);
+            this.panel6.Location = new System.Drawing.Point(1111, 0);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(265, 677);
+            this.panel6.Size = new System.Drawing.Size(265, 620);
             this.panel6.TabIndex = 1;
-            // 
-            // btn_wechat
-            // 
-            this.btn_wechat.Location = new System.Drawing.Point(38, 436);
-            this.btn_wechat.Name = "btn_wechat";
-            this.btn_wechat.Size = new System.Drawing.Size(185, 23);
-            this.btn_wechat.TabIndex = 62;
-            this.btn_wechat.Text = "生成微信公众号绑定二维码";
-            this.btn_wechat.UseVisualStyleBackColor = true;
-            this.btn_wechat.Click += new System.EventHandler(this.btn_wechat_Click);
             // 
             // picWeChat
             // 
-            this.picWeChat.Location = new System.Drawing.Point(38, 284);
+            this.picWeChat.Location = new System.Drawing.Point(38, 256);
             this.picWeChat.Name = "picWeChat";
             this.picWeChat.Size = new System.Drawing.Size(185, 146);
             this.picWeChat.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picWeChat.TabIndex = 61;
             this.picWeChat.TabStop = false;
-            // 
-            // btntest_stop
-            // 
-            this.btntest_stop.Location = new System.Drawing.Point(177, 254);
-            this.btntest_stop.Name = "btntest_stop";
-            this.btntest_stop.Size = new System.Drawing.Size(75, 23);
-            this.btntest_stop.TabIndex = 60;
-            this.btntest_stop.Text = "测试2";
-            this.btntest_stop.UseVisualStyleBackColor = true;
-            this.btntest_stop.Click += new System.EventHandler(this.btntest_stop_Click);
-            // 
-            // btnTest
-            // 
-            this.btnTest.Location = new System.Drawing.Point(96, 254);
-            this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(75, 23);
-            this.btnTest.TabIndex = 58;
-            this.btnTest.Text = "测试";
-            this.btnTest.UseVisualStyleBackColor = true;
-            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
-            // 
-            // checkScreen
-            // 
-            this.checkScreen.AutoSize = true;
-            this.checkScreen.Checked = true;
-            this.checkScreen.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkScreen.Location = new System.Drawing.Point(107, 90);
-            this.checkScreen.Name = "checkScreen";
-            this.checkScreen.Size = new System.Drawing.Size(72, 16);
-            this.checkScreen.TabIndex = 32;
-            this.checkScreen.Text = "是否全屏";
-            this.checkScreen.UseVisualStyleBackColor = true;
             // 
             // numHeight
             // 
@@ -695,39 +460,38 @@
             this.picCut.TabIndex = 27;
             this.picCut.TabStop = false;
             // 
-            // button7
-            // 
-            this.button7.Location = new System.Drawing.Point(26, 87);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(75, 23);
-            this.button7.TabIndex = 26;
-            this.button7.Text = "截图测试";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
-            // 
             // panel5
             // 
-            this.panel5.Controls.Add(this.txtRemark);
-            this.panel5.Controls.Add(this.label24);
+            this.panel5.Controls.Add(this.comMusic);
+            this.panel5.Controls.Add(this.btnReset);
             this.panel5.Controls.Add(this.btnDown);
-            this.panel5.Controls.Add(this.btnSetTime);
             this.panel5.Controls.Add(this.btnUp);
-            this.panel5.Controls.Add(this.textDuration);
-            this.panel5.Controls.Add(this.label18);
-            this.panel5.Controls.Add(this.label19);
             this.panel5.Controls.Add(this.btnReCount);
-            this.panel5.Controls.Add(this.label23);
-            this.panel5.Controls.Add(this.numCount);
-            this.panel5.Controls.Add(this.label22);
+            this.panel5.Controls.Add(this.btnSetTime);
+            this.panel5.Controls.Add(this.btnSetTask);
+            this.panel5.Controls.Add(this.simpleButton3);
+            this.panel5.Controls.Add(this.simpleButton4);
+            this.panel5.Controls.Add(this.simpleButton2);
+            this.panel5.Controls.Add(this.simpleButton1);
             this.panel5.Controls.Add(this.btRefresh);
             this.panel5.Controls.Add(this.btnRm);
             this.panel5.Controls.Add(this.btnNew);
+            this.panel5.Controls.Add(this.checkAysnc);
+            this.panel5.Controls.Add(this.btnStopMusic);
+            this.panel5.Controls.Add(this.checkMusic);
+            this.panel5.Controls.Add(this.txtRemark);
+            this.panel5.Controls.Add(this.label24);
+            this.panel5.Controls.Add(this.textDuration);
+            this.panel5.Controls.Add(this.label18);
+            this.panel5.Controls.Add(this.label19);
+            this.panel5.Controls.Add(this.label23);
+            this.panel5.Controls.Add(this.numCount);
+            this.panel5.Controls.Add(this.label22);
             this.panel5.Controls.Add(this.comTask);
             this.panel5.Controls.Add(this.label21);
             this.panel5.Controls.Add(this.numDelay);
             this.panel5.Controls.Add(this.numTime);
             this.panel5.Controls.Add(this.label14);
-            this.panel5.Controls.Add(this.btnReset);
             this.panel5.Controls.Add(this.label13);
             this.panel5.Controls.Add(this.label15);
             this.panel5.Controls.Add(this.jobName);
@@ -736,26 +500,22 @@
             this.panel5.Controls.Add(this.comBoard);
             this.panel5.Controls.Add(this.label5);
             this.panel5.Controls.Add(this.label4);
-            this.panel5.Controls.Add(this.button2);
-            this.panel5.Controls.Add(this.button4);
             this.panel5.Controls.Add(this.windowName);
             this.panel5.Controls.Add(this.comJob);
-            this.panel5.Controls.Add(this.btnAdd);
             this.panel5.Controls.Add(this.label3);
-            this.panel5.Controls.Add(this.btnDel);
             this.panel5.Controls.Add(this.label1);
             this.panel5.Controls.Add(this.label2);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel5.Location = new System.Drawing.Point(0, 0);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(253, 677);
+            this.panel5.Size = new System.Drawing.Size(268, 620);
             this.panel5.TabIndex = 0;
             // 
             // txtRemark
             // 
             this.txtRemark.Location = new System.Drawing.Point(79, 208);
             this.txtRemark.Name = "txtRemark";
-            this.txtRemark.Size = new System.Drawing.Size(100, 21);
+            this.txtRemark.Size = new System.Drawing.Size(101, 21);
             this.txtRemark.TabIndex = 74;
             // 
             // label24
@@ -767,41 +527,11 @@
             this.label24.TabIndex = 73;
             this.label24.Text = "备注";
             // 
-            // btnDown
-            // 
-            this.btnDown.Location = new System.Drawing.Point(90, 424);
-            this.btnDown.Name = "btnDown";
-            this.btnDown.Size = new System.Drawing.Size(64, 23);
-            this.btnDown.TabIndex = 62;
-            this.btnDown.Text = "向下移动";
-            this.btnDown.UseVisualStyleBackColor = true;
-            this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
-            // 
-            // btnSetTime
-            // 
-            this.btnSetTime.Location = new System.Drawing.Point(157, 337);
-            this.btnSetTime.Name = "btnSetTime";
-            this.btnSetTime.Size = new System.Drawing.Size(65, 23);
-            this.btnSetTime.TabIndex = 69;
-            this.btnSetTime.Text = "设置时间";
-            this.btnSetTime.UseVisualStyleBackColor = true;
-            this.btnSetTime.Click += new System.EventHandler(this.btnSetTime_Click);
-            // 
-            // btnUp
-            // 
-            this.btnUp.Location = new System.Drawing.Point(24, 424);
-            this.btnUp.Name = "btnUp";
-            this.btnUp.Size = new System.Drawing.Size(65, 23);
-            this.btnUp.TabIndex = 61;
-            this.btnUp.Text = "向上移动";
-            this.btnUp.UseVisualStyleBackColor = true;
-            this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
-            // 
             // textDuration
             // 
             this.textDuration.Location = new System.Drawing.Point(78, 256);
             this.textDuration.Name = "textDuration";
-            this.textDuration.Size = new System.Drawing.Size(100, 21);
+            this.textDuration.Size = new System.Drawing.Size(102, 21);
             this.textDuration.TabIndex = 68;
             this.textDuration.Text = "1";
             // 
@@ -822,16 +552,6 @@
             this.label19.Size = new System.Drawing.Size(53, 12);
             this.label19.TabIndex = 66;
             this.label19.Text = "持续时间";
-            // 
-            // btnReCount
-            // 
-            this.btnReCount.Location = new System.Drawing.Point(90, 394);
-            this.btnReCount.Name = "btnReCount";
-            this.btnReCount.Size = new System.Drawing.Size(65, 23);
-            this.btnReCount.TabIndex = 65;
-            this.btnReCount.Text = "设置次数";
-            this.btnReCount.UseVisualStyleBackColor = true;
-            this.btnReCount.Click += new System.EventHandler(this.btnReCount_Click);
             // 
             // label23
             // 
@@ -863,36 +583,6 @@
             this.label22.TabIndex = 63;
             this.label22.Text = "运行次数";
             // 
-            // btRefresh
-            // 
-            this.btRefresh.Location = new System.Drawing.Point(167, 21);
-            this.btRefresh.Name = "btRefresh";
-            this.btRefresh.Size = new System.Drawing.Size(65, 23);
-            this.btRefresh.TabIndex = 62;
-            this.btRefresh.Text = "刷新Task";
-            this.btRefresh.UseVisualStyleBackColor = true;
-            this.btRefresh.Click += new System.EventHandler(this.btRefresh_Click);
-            // 
-            // btnRm
-            // 
-            this.btnRm.Location = new System.Drawing.Point(89, 21);
-            this.btnRm.Name = "btnRm";
-            this.btnRm.Size = new System.Drawing.Size(65, 23);
-            this.btnRm.TabIndex = 61;
-            this.btnRm.Text = "删除Task";
-            this.btnRm.UseVisualStyleBackColor = true;
-            this.btnRm.Click += new System.EventHandler(this.btnRm_Click);
-            // 
-            // btnNew
-            // 
-            this.btnNew.Location = new System.Drawing.Point(12, 21);
-            this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(65, 23);
-            this.btnNew.TabIndex = 60;
-            this.btnNew.Text = "添加Task";
-            this.btnNew.UseVisualStyleBackColor = true;
-            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
-            // 
             // comTask
             // 
             this.comTask.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -916,7 +606,7 @@
             // 
             this.numDelay.Location = new System.Drawing.Point(78, 281);
             this.numDelay.Name = "numDelay";
-            this.numDelay.Size = new System.Drawing.Size(100, 21);
+            this.numDelay.Size = new System.Drawing.Size(102, 21);
             this.numDelay.TabIndex = 55;
             this.numDelay.Text = "1";
             // 
@@ -924,7 +614,7 @@
             // 
             this.numTime.Location = new System.Drawing.Point(79, 232);
             this.numTime.Name = "numTime";
-            this.numTime.Size = new System.Drawing.Size(100, 21);
+            this.numTime.Size = new System.Drawing.Size(101, 21);
             this.numTime.TabIndex = 54;
             this.numTime.Text = "1";
             // 
@@ -937,24 +627,14 @@
             this.label14.TabIndex = 53;
             this.label14.Text = "秒";
             // 
-            // btnReset
-            // 
-            this.btnReset.Location = new System.Drawing.Point(24, 395);
-            this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(65, 23);
-            this.btnReset.TabIndex = 50;
-            this.btnReset.Text = "重置任务";
-            this.btnReset.UseVisualStyleBackColor = true;
-            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
-            // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(21, 80);
+            this.label13.Location = new System.Drawing.Point(31, 79);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(53, 12);
+            this.label13.Size = new System.Drawing.Size(41, 12);
             this.label13.TabIndex = 49;
-            this.label13.Text = "任务名称";
+            this.label13.Text = "任务组";
             // 
             // label15
             // 
@@ -1009,13 +689,233 @@
             this.label5.TabIndex = 44;
             this.label5.Text = "键盘";
             // 
+            // btnStopMusic
+            // 
+            this.btnStopMusic.Location = new System.Drawing.Point(14, 334);
+            this.btnStopMusic.Name = "btnStopMusic";
+            this.btnStopMusic.Size = new System.Drawing.Size(75, 23);
+            this.btnStopMusic.TabIndex = 63;
+            this.btnStopMusic.Text = "停止播放";
+            this.btnStopMusic.Click += new System.EventHandler(this.btnStopMusic_Click);
+            // 
+            // checkMusic
+            // 
+            this.checkMusic.Location = new System.Drawing.Point(193, 336);
+            this.checkMusic.Name = "checkMusic";
+            this.checkMusic.Properties.Caption = "播放音乐";
+            this.checkMusic.Size = new System.Drawing.Size(75, 19);
+            this.checkMusic.TabIndex = 64;
+            // 
+            // checkAysnc
+            // 
+            this.checkAysnc.Location = new System.Drawing.Point(186, 104);
+            this.checkAysnc.Name = "checkAysnc";
+            this.checkAysnc.Properties.Caption = "并行任务";
+            this.checkAysnc.Size = new System.Drawing.Size(75, 19);
+            this.checkAysnc.TabIndex = 79;
+            // 
+            // btn_wechat
+            // 
+            this.btn_wechat.Location = new System.Drawing.Point(38, 422);
+            this.btn_wechat.Name = "btn_wechat";
+            this.btn_wechat.Size = new System.Drawing.Size(185, 23);
+            this.btn_wechat.TabIndex = 80;
+            this.btn_wechat.Text = "生成微信公众号绑定二维码";
+            this.btn_wechat.Click += new System.EventHandler(this.btn_wechat_Click);
+            // 
+            // btnNew
+            // 
+            this.btnNew.Location = new System.Drawing.Point(14, 12);
+            this.btnNew.Name = "btnNew";
+            this.btnNew.Size = new System.Drawing.Size(75, 23);
+            this.btnNew.TabIndex = 80;
+            this.btnNew.Text = "添加任务组";
+            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
+            // 
+            // btnRm
+            // 
+            this.btnRm.Location = new System.Drawing.Point(95, 12);
+            this.btnRm.Name = "btnRm";
+            this.btnRm.Size = new System.Drawing.Size(75, 23);
+            this.btnRm.TabIndex = 81;
+            this.btnRm.Text = "删除任务组";
+            this.btnRm.Click += new System.EventHandler(this.btnRm_Click);
+            // 
+            // btRefresh
+            // 
+            this.btRefresh.Location = new System.Drawing.Point(176, 12);
+            this.btRefresh.Name = "btRefresh";
+            this.btRefresh.Size = new System.Drawing.Size(75, 23);
+            this.btRefresh.TabIndex = 82;
+            this.btRefresh.Text = "刷新任务组";
+            this.btRefresh.Click += new System.EventHandler(this.btRefresh_Click);
+            // 
+            // simpleButton1
+            // 
+            this.simpleButton1.Location = new System.Drawing.Point(17, 422);
+            this.simpleButton1.Name = "simpleButton1";
+            this.simpleButton1.Size = new System.Drawing.Size(104, 23);
+            this.simpleButton1.TabIndex = 83;
+            this.simpleButton1.Text = "添加任务";
+            this.simpleButton1.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // simpleButton2
+            // 
+            this.simpleButton2.Location = new System.Drawing.Point(150, 422);
+            this.simpleButton2.Name = "simpleButton2";
+            this.simpleButton2.Size = new System.Drawing.Size(104, 23);
+            this.simpleButton2.TabIndex = 84;
+            this.simpleButton2.Text = "删除任务";
+            this.simpleButton2.Click += new System.EventHandler(this.btnDel_Click);
+            // 
+            // simpleButton3
+            // 
+            this.simpleButton3.Location = new System.Drawing.Point(14, 393);
+            this.simpleButton3.Name = "simpleButton3";
+            this.simpleButton3.Size = new System.Drawing.Size(245, 23);
+            this.simpleButton3.TabIndex = 86;
+            this.simpleButton3.Text = "停止(鼠标中键)";
+            this.simpleButton3.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // simpleButton4
+            // 
+            this.simpleButton4.Location = new System.Drawing.Point(14, 364);
+            this.simpleButton4.Name = "simpleButton4";
+            this.simpleButton4.Size = new System.Drawing.Size(245, 23);
+            this.simpleButton4.TabIndex = 85;
+            this.simpleButton4.Text = "开始(鼠标中键)";
+            this.simpleButton4.Click += new System.EventHandler(this.Button2_Click);
+            // 
+            // btnSetTask
+            // 
+            this.btnSetTask.Location = new System.Drawing.Point(17, 457);
+            this.btnSetTask.Name = "btnSetTask";
+            this.btnSetTask.Size = new System.Drawing.Size(75, 23);
+            this.btnSetTask.TabIndex = 87;
+            this.btnSetTask.Text = "设置任务";
+            this.btnSetTask.Click += new System.EventHandler(this.btnSetTask_Click);
+            // 
+            // btnSetTime
+            // 
+            this.btnSetTime.Location = new System.Drawing.Point(98, 457);
+            this.btnSetTime.Name = "btnSetTime";
+            this.btnSetTime.Size = new System.Drawing.Size(75, 23);
+            this.btnSetTime.TabIndex = 88;
+            this.btnSetTime.Text = "设置时间";
+            this.btnSetTime.Click += new System.EventHandler(this.btnSetTime_Click);
+            // 
+            // btnReCount
+            // 
+            this.btnReCount.Location = new System.Drawing.Point(179, 457);
+            this.btnReCount.Name = "btnReCount";
+            this.btnReCount.Size = new System.Drawing.Size(75, 23);
+            this.btnReCount.TabIndex = 89;
+            this.btnReCount.Text = "设置次数";
+            this.btnReCount.Click += new System.EventHandler(this.btnReCount_Click);
+            // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(179, 486);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(75, 23);
+            this.btnReset.TabIndex = 92;
+            this.btnReset.Text = "重置任务";
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
+            // btnDown
+            // 
+            this.btnDown.Location = new System.Drawing.Point(98, 486);
+            this.btnDown.Name = "btnDown";
+            this.btnDown.Size = new System.Drawing.Size(75, 23);
+            this.btnDown.TabIndex = 91;
+            this.btnDown.Text = "向下移动";
+            this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
+            // 
+            // btnUp
+            // 
+            this.btnUp.Location = new System.Drawing.Point(17, 486);
+            this.btnUp.Name = "btnUp";
+            this.btnUp.Size = new System.Drawing.Size(75, 23);
+            this.btnUp.TabIndex = 90;
+            this.btnUp.Text = "向上移动";
+            this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
+            // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(23, 12);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(238, 23);
+            this.button10.TabIndex = 93;
+            this.button10.Text = "实时获取鼠标位置(F1停止)";
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(23, 85);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(75, 23);
+            this.button7.TabIndex = 93;
+            this.button7.Text = "截图测试";
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // checkScreen
+            // 
+            this.checkScreen.EditValue = true;
+            this.checkScreen.Location = new System.Drawing.Point(104, 87);
+            this.checkScreen.Name = "checkScreen";
+            this.checkScreen.Properties.Caption = "是否全屏";
+            this.checkScreen.Size = new System.Drawing.Size(75, 19);
+            this.checkScreen.TabIndex = 93;
+            // 
+            // btntest_stop
+            // 
+            this.btntest_stop.Location = new System.Drawing.Point(174, 457);
+            this.btntest_stop.Name = "btntest_stop";
+            this.btntest_stop.Size = new System.Drawing.Size(75, 23);
+            this.btntest_stop.TabIndex = 95;
+            this.btntest_stop.Text = "测试2";
+            this.btntest_stop.Click += new System.EventHandler(this.btntest_stop_Click);
+            // 
+            // btnTest
+            // 
+            this.btnTest.Location = new System.Drawing.Point(93, 457);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(75, 23);
+            this.btnTest.TabIndex = 94;
+            this.btnTest.Text = "测试";
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(12, 457);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(75, 23);
+            this.button5.TabIndex = 93;
+            this.button5.Text = "聚焦测试";
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // comMusic
+            // 
+            this.comMusic.Location = new System.Drawing.Point(100, 335);
+            this.comMusic.Name = "comMusic";
+            this.comMusic.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.comMusic.Properties.Items.AddRange(new object[] {
+            "报警1",
+            "报警2",
+            "报警3",
+            "报警4",
+            "报警5"});
+            this.comMusic.Size = new System.Drawing.Size(80, 20);
+            this.comMusic.TabIndex = 93;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1352, 701);
-            this.Controls.Add(this.panel3);
+            this.ClientSize = new System.Drawing.Size(1376, 807);
             this.Controls.Add(this.panel4);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
@@ -1024,13 +924,14 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.posX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.posY)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridJobs)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridJobs)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.viewJobs)).EndInit();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picWeChat)).EndInit();
@@ -1040,18 +941,18 @@
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkMusic.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkAysnc.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkScreen.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.comMusic.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.RichTextBox richLogs;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TextBox windowName;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.NumericUpDown posX;
@@ -1060,9 +961,6 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.DataGridView gridJobs;
-        private System.Windows.Forms.Button btnAdd;
-        private System.Windows.Forms.Button btnDel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -1083,53 +981,52 @@
         private System.Windows.Forms.Label txtMin;
         private System.Windows.Forms.Label txtSecond;
         private System.Windows.Forms.Label txtHour;
-        private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Button button7;
         private System.Windows.Forms.PictureBox picCut;
         private System.Windows.Forms.NumericUpDown numHeight;
         private System.Windows.Forms.NumericUpDown numWidth;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.CheckBox checkScreen;
         private System.Windows.Forms.TextBox numDelay;
         private System.Windows.Forms.TextBox numTime;
         private System.Windows.Forms.ComboBox comTask;
         private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Button btnTest;
-        private System.Windows.Forms.Button btnNew;
-        private System.Windows.Forms.Button btnRm;
-        private System.Windows.Forms.Button btRefresh;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.NumericUpDown numCount;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Button btnReCount;
-        private System.Windows.Forms.Button btntest_stop;
         private System.Windows.Forms.TextBox textDuration;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Button btnSetTime;
-        private System.Windows.Forms.Button btnDown;
-        private System.Windows.Forms.Button btnUp;
         private System.Windows.Forms.TextBox txtRemark;
         private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column14;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
-        private System.Windows.Forms.Button btn_wechat;
         private System.Windows.Forms.PictureBox picWeChat;
+        private DevExpress.XtraGrid.GridControl gridJobs;
+        private DevExpress.XtraGrid.Views.Grid.GridView viewJobs;
+        private DevExpress.XtraEditors.SimpleButton btnStopMusic;
+        private DevExpress.XtraEditors.CheckEdit checkMusic;
+        private DevExpress.XtraEditors.CheckEdit checkAysnc;
+        private DevExpress.XtraEditors.SimpleButton btn_wechat;
+        private DevExpress.XtraEditors.SimpleButton btRefresh;
+        private DevExpress.XtraEditors.SimpleButton btnRm;
+        private DevExpress.XtraEditors.SimpleButton btnNew;
+        private DevExpress.XtraEditors.SimpleButton simpleButton2;
+        private DevExpress.XtraEditors.SimpleButton simpleButton1;
+        private DevExpress.XtraEditors.SimpleButton simpleButton3;
+        private DevExpress.XtraEditors.SimpleButton simpleButton4;
+        private DevExpress.XtraEditors.SimpleButton btnReCount;
+        private DevExpress.XtraEditors.SimpleButton btnSetTime;
+        private DevExpress.XtraEditors.SimpleButton btnSetTask;
+        private DevExpress.XtraEditors.SimpleButton btnReset;
+        private DevExpress.XtraEditors.SimpleButton btnDown;
+        private DevExpress.XtraEditors.SimpleButton btnUp;
+        private DevExpress.XtraEditors.SimpleButton button10;
+        private DevExpress.XtraEditors.CheckEdit checkScreen;
+        private DevExpress.XtraEditors.SimpleButton button7;
+        private DevExpress.XtraEditors.SimpleButton btntest_stop;
+        private DevExpress.XtraEditors.SimpleButton btnTest;
+        private DevExpress.XtraEditors.SimpleButton button5;
+        private DevExpress.XtraEditors.ComboBoxEdit comMusic;
     }
 }
 

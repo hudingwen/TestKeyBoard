@@ -24,6 +24,9 @@ using Gma.QrCodeNet.Encoding.Windows.Render;
 using Gma.QrCodeNet.Encoding;
 using System.Drawing.Imaging;
 using System.Configuration;
+using DevExpress.XtraGrid.Columns;
+using System.Media;
+using DevExpress.XtraEditors.Controls;
 
 namespace TestKeyboard
 {
@@ -39,8 +42,8 @@ namespace TestKeyboard
         public static extern bool key_down(int keycode);
         [DllImport("librustdesk.dll")]
         public static extern bool key_up(int keycode);
-        private Foreground mFocus;
-        private PressClick mClick;
+        private Foreground mFocus = new Foreground();//聚焦
+        private PressClick mClick = new PressClick();//鼠标点击
         static ConcurrentQueue<string> queue = new ConcurrentQueue<string>();
         /// <summary>
         /// 键盘钩子KeyDown事件
@@ -95,6 +98,8 @@ namespace TestKeyboard
             InitializeComponent();
             this.FormClosing += MainForm_FormClosing;
             Control.CheckForIllegalCrossThreadCalls = false;
+
+
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -125,13 +130,39 @@ namespace TestKeyboard
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            try
+            {
+                viewJobs.OptionsBehavior.ReadOnly = true;
+                viewJobs.OptionsView.ShowGroupPanel = false;
+                viewJobs.OptionsView.ColumnAutoWidth = false;
+                viewJobs.OptionsBehavior.AutoPopulateColumns = false;
+                viewJobs.OptionsSelection.MultiSelect = true;
+                viewJobs.Columns.Clear();
+                viewJobs.Columns.Add(new GridColumn { FieldName = "type", Caption = "任务", Width = 200, Visible = true });
+                viewJobs.Columns.Add(new GridColumn { FieldName = "remark", Caption = "备注", Width = 200, Visible = true });
+                viewJobs.Columns.Add(new GridColumn { FieldName = "time", Caption = "间隔(ms)", Width = 200, Visible = true });
+                viewJobs.Columns.Add(new GridColumn { FieldName = "less", Caption = "下次(ms)", Width = 200, Visible = true });
+                viewJobs.Columns.Add(new GridColumn { FieldName = "content", Caption = "内容", Width = 200, Visible = true });
+                viewJobs.Columns.Add(new GridColumn { FieldName = "x", Caption = "X坐标", Width = 200, Visible = true });
+                viewJobs.Columns.Add(new GridColumn { FieldName = "y", Caption = "Y坐标", Width = 200, Visible = true });
+                viewJobs.Columns.Add(new GridColumn { FieldName = "duration", Caption = "持续时间(ms)", Width = 200, Visible = true });
+                viewJobs.Columns.Add(new GridColumn { FieldName = "delay", Caption = "后置延迟(ms)", Width = 200, Visible = true });
+                viewJobs.Columns.Add(new GridColumn { FieldName = "count", Caption = "运行次数", Width = 200, Visible = true });
+                viewJobs.Columns.Add(new GridColumn { FieldName = "countLess", Caption = "已运行次数", Width = 200, Visible = true });
+                viewJobs.Columns.Add(new GridColumn { FieldName = "isAsync", Caption = "并行任务", Width = 200, Visible = true });
+
+                comMusic.SelectedIndex = 0;
+                comMusic.Properties.TextEditStyle = TextEditStyles.DisableTextEditor;
+            }
+            catch (Exception ex)
+            {
+                SetText(ex.Message);
+            }
             pushApi = ConfigurationManager.AppSettings["pushApi"];
             //获得微信绑定id
             CheckID();
             //开启日志显示
-            Action log = new Action(() => { });
-            log.BeginInvoke(ShowLog, null);
-
+            Task.Run(ShowLog);
             //开启监听
             AddEvent();
 
@@ -167,17 +198,8 @@ namespace TestKeyboard
             //任务列表
             ReadTask();
 
-            //数据源
-            gridJobs.AutoGenerateColumns = true;
-            gridJobs.RowHeadersVisible = true;
-            gridJobs.AllowUserToAddRows = false;
-            gridJobs.RowPostPaint += GridJobs_RowPostPaint;
-            source = new BindingSource();
-            source.DataSource = jobs;
-            gridJobs.DataSource = source;
-            source.ResetBindings(false);
-
-
+            //绑定数据源  
+            gridJobs.DataSource = jobs;
 
 
         }
@@ -201,17 +223,17 @@ namespace TestKeyboard
             comTask.DisplayMember = "Key";
             comTask.ValueMember = "Value";
         }
-        private void GridJobs_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        private void gridJobs_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
-            Rectangle rectangle = new Rectangle(e.RowBounds.Location.X,
-                e.RowBounds.Location.Y,
-                gridJobs.RowHeadersWidth - 4,
-                e.RowBounds.Height);
-            TextRenderer.DrawText(e.Graphics, (e.RowIndex + 1).ToString(),
-                gridJobs.RowHeadersDefaultCellStyle.Font,
-                rectangle,
-                gridJobs.RowHeadersDefaultCellStyle.ForeColor,
-                TextFormatFlags.VerticalCenter | TextFormatFlags.Right);
+            //Rectangle rectangle = new Rectangle(e.RowBounds.Location.X,
+            //    e.RowBounds.Location.Y,
+            //    gridJobs.RowHeadersWidth - 4,
+            //    e.RowBounds.Height);
+            //TextRenderer.DrawText(e.Graphics, (e.RowIndex + 1).ToString(),
+            //    gridJobs.RowHeadersDefaultCellStyle.Font,
+            //    rectangle,
+            //    gridJobs.RowHeadersDefaultCellStyle.ForeColor,
+            //    TextFormatFlags.VerticalCenter | TextFormatFlags.Right);
         }
         ConcurrentBag<string> list = new ConcurrentBag<string>();
         public void SetText(string logStr, bool isClean = false)
@@ -219,18 +241,16 @@ namespace TestKeyboard
             try
             {
                 if (logStr == null || string.IsNullOrWhiteSpace(logStr)) return;
-               
+
                 queue.Enqueue($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}-{logStr}\r\n");
-                //Action log = new Action(() => { });
-                //log.BeginInvoke(ShowLog, logStr);
             }
             catch (Exception)
             {
-               
+
             }
 
         }
-        public void ShowLog(IAsyncResult ar)
+        public void ShowLog()
         {
             try
             {
@@ -268,13 +288,13 @@ namespace TestKeyboard
                 SetText(ex.Message);
             }
         }
-        public void WriteTask(IAsyncResult ar)
+        public void WriteTask()
         {
             try
             {
                 while (isStaring)
                 {
-                    Thread.Sleep(30000);
+                    Thread.Sleep(10000);
                     SaveConfig();
                 }
             }
@@ -302,24 +322,25 @@ namespace TestKeyboard
                 }
                 isStaring = true;
 
-                mFocus = new Foreground();//聚焦
-                mClick = new PressClick();//点击
-
+                for (int i = 0; i < jobs.Count; i++)
+                {
+                    Job item = jobs[i];
+                    if (item.count > 0 && item.countLess >= item.count)
+                        continue;
+                    if (!(item.less <= 0 || item.less == item.time))
+                        continue;
+                    item.isCanStar = true;
+                }
                 //时间统计
-                Action calc = new Action(() => { });
-                calc.BeginInvoke(CaclTime, null);
-
-                //数据刷新
-                Action refresh = new Action(() => { });
-                calc.BeginInvoke(CalcData, null);
-
+                Task.Run(CaclTime);
+                //刷新显示
+                Task.Run(RefrData);
+                //任务计算
+                Task.Run(CalcData);
                 //定时回写
-                Action writetask = new Action(() => { });
-                writetask.BeginInvoke(WriteTask, null);
-
+                Task.Run(WriteTask);
                 //定时任务
-                Action runjob = new Action(() => { });
-                runjob.BeginInvoke(RunJob, null);
+                Task.Run(RunJob);
             }
             catch (Exception ex)
             {
@@ -328,47 +349,38 @@ namespace TestKeyboard
         }
         HttpClient httpClient = new HttpClient();
 
-        public async void RunJob(IAsyncResult ar)
+        public void RunJob()
         {
+            SetText("任务开启");
             try
             {
-                SetText("任务开启");
 
                 //循环任务
                 while (isStaring)
                 {
-                    DateTime starTime = DateTime.Now;
-                    var lessJobs = jobs.Where(t => t.count > 0 && t.countLess >= t.count).ToList();
-                    if (lessJobs.Count == jobs.Count)
-                    {
-                        isStaring = false;
-                        SetText("所有任务执行结束");
-                        break;
-                    }
+
                     for (int i = 0; i < jobs.Count; i++)
                     {
                         if (!isStaring)
-                            break;
+                            return;
                         Job item = jobs[i];
-                        if (item.count > 0 && item.countLess >= item.count)
-                            continue;
-                        StarJob(item);
-
+                        if (item.isCanStar)
+                        {
+                            item.isCanStar = false;
+                            if (item.isAsync)
+                                Task.Run(() => { StarJob(item); });
+                            else
+                                StarJob(item);
+                        }
+                        Thread.Sleep(10);
                     }
-
-                    var total = (int)(DateTime.Now - starTime).TotalMilliseconds;
-                    foreach (var other in jobs)
-                    {
-                        other.less -= total;
-                        if (other.less < 0) other.less = other.time;
-                    }
+                    Thread.Sleep(10);
                     isFirst = false;
                 }
             }
             catch (Exception ex)
             {
-                SetText(ex.Message);
-                Thread.Sleep(1000);
+                SetText($"任务异常退出:{ex.Message}");
                 isStaring = false;
             }
         }
@@ -378,98 +390,88 @@ namespace TestKeyboard
             try
             {
                 item.typeName = item.type.ToString();
-
                 string msg = "";
-
-                if (item.less <= 0 || item.less == item.time)
+                if (item.type == JobType.按键任务)
                 {
-                    if (item.type == JobType.按键任务)
+
+                    var key = (KeyBoard)item.content;
+                    if (item.duration > 0)
+                        key_down((int)key);
+                    else
+                        click((int)key);
+                    //if (item.children != null && item.children.Count > 0)
+                    //{
+                    //    foreach (var child in item.children)
+                    //    {
+                    //        StarJob(child);
+                    //    }
+                    //}
+                    if (item.duration > 0)
+                    {
+                        Thread.Sleep(item.duration);
+                        key_up((int)key);
+                    }
+                    //取反
+                    if (key == KeyBoard.LeftArrow || key == KeyBoard.RightArrow)
                     {
 
-                        var key = (KeyBoard)item.content;
-                        if (item.duration > 0)
-                            key_down((int)key);
-                        else
-                            click((int)key);
-                        if (item.children != null && item.children.Count > 0)
-                        {
-                            foreach (var child in item.children)
-                            {
-                                StarJob(child);
-                            }
-                        }
-                        if (item.duration > 0)
-                        {
-                            Thread.Sleep(item.duration);
-                            key_up((int)key);
-                        }
-                        //取反
-                        if (key == KeyBoard.LeftArrow || key == KeyBoard.RightArrow)
-                        {
-
-                            if (key == KeyBoard.LeftArrow)
-                                item.content = KeyBoard.RightArrow;
-                            else if (key == KeyBoard.RightArrow)
-                                item.content = KeyBoard.LeftArrow;
-                        }
-                        SetText("按键" + item.content.ToString());
+                        if (key == KeyBoard.LeftArrow)
+                            item.content = KeyBoard.RightArrow;
+                        else if (key == KeyBoard.RightArrow)
+                            item.content = KeyBoard.LeftArrow;
                     }
-                    else if (item.type == JobType.点击任务)
-                    {
-
-                        mClick.Click(item.x, item.y, (EnumMouse)item.content);
-                        SetText("点击" + item.content.ToString());
-                    }
-                    else if (item.type == JobType.聚焦窗体)
-                    {
-                        var isOk = mFocus.FocusWindow(item.content.ToString(), ref msg);
-                        SetText(msg);
-                        if (!isOk)
-                        {
-                            SetText("任务主动停止");
-                            isStaring = false;
-                        }
-                        else
-                        {
-                            SetText("聚焦" + item.content.ToString());
-                        }
-                    }
-                    else if (item.type == JobType.移动窗体)
-                    {
-                        var isOk = ScreenCat.Move(item.content.ToString());
-                        if (!isOk)
-                        {
-                            SetText("窗口移动失败");
-                            isStaring = false;
-                        }
-                        else
-                        {
-                            SetText("移动" + item.content.ToString());
-                        }
-                    }
-                    else if (item.type == JobType.截图窗体)
-                    {
-                        var screen = ScreenCat.GetScreen(item.content.ToString());
-                        var savePath = Path.Combine(Application.StartupPath, "pics", $"{DateTime.Now.ToString("yyyMMddHHmmss")}.jpg");
-                        ScreenCat.SaveImageWithQuality(savePath, screen, 100);
-                        picCut.Image = screen;
-                        SetText($"截图成功:{savePath}");
-
-                        Task.Run(() => { CheckPicture(savePath, CheckType.一般测谎); });
-                        Task.Run(() => { CheckPicture(savePath, CheckType.解轮检测); });
-                        Task.Run(() => { CheckPicture(savePath, CheckType.蘑菇测谎); }); 
-                    }
-                    //后置延迟
-                    if (item.delay > 0)
-                        Thread.Sleep((int)item.delay);
-                    //执行次数记录
-                    item.countLess += 1;
+                    SetText("按键" + item.content.ToString());
                 }
-                else
+                else if (item.type == JobType.点击任务)
                 {
-                    //还没到执行的时候
 
+                    mClick.Click(item.x, item.y, (EnumMouse)item.content);
+                    SetText("点击" + item.content.ToString());
                 }
+                else if (item.type == JobType.聚焦窗体)
+                {
+                    var isOk = mFocus.FocusWindow(item.content.ToString(), ref msg);
+                    SetText(msg);
+                    if (!isOk)
+                    {
+                        SetText("窗口聚焦失败");
+                        isStaring = false;
+                    }
+                    else
+                    {
+                        SetText("聚焦" + item.content.ToString());
+                    }
+                }
+                else if (item.type == JobType.移动窗体)
+                {
+                    var isOk = ScreenCat.Move(item.content.ToString());
+                    if (!isOk)
+                    {
+                        SetText("窗口移动失败");
+                        isStaring = false;
+                    }
+                    else
+                    {
+                        SetText("移动" + item.content.ToString());
+                    }
+                }
+                else if (item.type == JobType.截图检测)
+                {
+                    var screen = ScreenCat.GetScreen(item.content.ToString());
+                    var savePath = Path.Combine(Application.StartupPath, "pics", $"{DateTime.Now.ToString("yyyMMddHHmmss")}.jpg");
+                    ScreenCat.SaveImageWithQuality(savePath, screen, 70);
+                    picCut.Image = screen;
+                    SetText($"截图成功:{savePath}");
+                    Task.Run(() => { CheckPicture(savePath, CheckType.一般测谎); });
+                    Task.Run(() => { CheckPicture(savePath, CheckType.解轮检测); });
+                    Task.Run(() => { CheckPicture(savePath, CheckType.蘑菇测谎); });
+                }
+                //后置延迟
+                if (item.delay > 0)
+                    Thread.Sleep((int)item.delay);
+                //执行次数记录
+                item.countLess += 1;
+
             }
             catch (Exception ex)
             {
@@ -477,11 +479,8 @@ namespace TestKeyboard
             }
         }
 
-        private  void CheckPicture(string savePath, CheckType checkType)
+        private void CheckPicture(string savePath, CheckType checkType)
         {
-           
-
-
             string msg_success = String.Empty;
             string msg_error = String.Empty;
             using (Process p = new Process())
@@ -495,69 +494,86 @@ namespace TestKeyboard
                 //p.StartInfo.StandardOutputEncoding = Encoding.UTF8;
 
                 //p.StartInfo.StandardErrorEncoding = Encoding.UTF8;
-               
-               
 
-                var myScript = Path.Combine(Application.StartupPath, "043-find_lun.exe");
 
-              
+
+                var myScript = Path.Combine(Application.StartupPath, "script", "043-find_lun.exe");
+
+
                 var mySample = "";
                 if (checkType == CheckType.解轮检测)
-                    mySample = Path.Combine(Application.StartupPath, "lun.png");
+                    mySample = Path.Combine(Application.StartupPath, "sample", "lun.png");
                 else if (checkType == CheckType.蘑菇测谎)
-                    mySample = Path.Combine(Application.StartupPath, "mogu.png");
+                    mySample = Path.Combine(Application.StartupPath, "sample", "mogu.png");
                 else if (checkType == CheckType.一般测谎)
                 {
-                    myScript = Path.Combine(Application.StartupPath, "045-blob_4.exe");
+                    myScript = Path.Combine(Application.StartupPath, "script", "045-blob_4.exe");
                     mySample = savePath;
                 }
                 else
                     return;
                 p.StartInfo.FileName = myScript; // 设置要执行的Python脚本名称
                 var myResource = savePath;
-                p.StartInfo.Arguments = $"{mySample} {myResource}";  // 设置参数
+                p.StartInfo.Arguments = $"\"{mySample}\" \"{myResource}\"";  // 设置参数
                 p.Start();  // 启动进程
                 msg_success = p.StandardOutput.ReadToEnd();  // 接收信息 
                 msg_error = p.StandardError.ReadToEnd(); //接收错误信息
                 if (string.IsNullOrWhiteSpace(msg_success))
                 {
                     //没有正常返回
-                    SetText(msg_error);
+                    SetText($"检测出错-{checkType}-{msg_error}");
                 }
                 else
                 {
                     //正常返回
                     SetText($"{checkType}-{msg_success}");
-                    MessageModel resMsg  = new MessageModel();
+                    MessageModel resMsg = new MessageModel();
                     try
                     {
                         resMsg = Newtonsoft.Json.JsonConvert.DeserializeObject<MessageModel>(msg_success);
                     }
                     catch (Exception)
-                    { 
-                        
-                    }
-                    if (resMsg.success && !string.IsNullOrEmpty(wechatid))
                     {
-                        //SetText($"脚本地址:{myScript}");
-                        //SetText($"样本地址:{mySample}");
-                        //SetText($"截图地址:{myResource}");
+
+                    }
+                    if (resMsg.success)
+                    {
+
                         //成功识别
-                        var url = $"{pushApi}/api/WeChat/PushCardMsgGet?info.id=test&info.companyCode=test&info.userID={wechatid}&cardMsg.template_id=_eLuhnhPQMqVagS3SUyIlbYfi0gltTd4R0Jiq69gJA4&cardMsg.first={checkType.ToString()}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}\r\n截图地址:{Path.GetFileName(myResource)}";
-                        try
+
+                        //微信推送
+                        if (!string.IsNullOrEmpty(wechatid))
                         {
-                            string res = httpClient.GetStringAsync(url).Result;
-                            WechatModel data = JsonConvert.DeserializeObject<WechatModel>(res);
-                            if (data.success)
+                            var url = $"{pushApi}/api/WeChat/PushCardMsgGet?info.id=test&info.companyCode=test&info.userID={wechatid}&cardMsg.template_id=_eLuhnhPQMqVagS3SUyIlbYfi0gltTd4R0Jiq69gJA4&cardMsg.first={checkType.ToString()}-{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}\r\n截图地址:{Path.GetFileName(myResource)}";
+                            try
                             {
-                                SetText("微信消息推送成");
+                                string res = httpClient.GetStringAsync(url).Result;
+                                WechatModel data = JsonConvert.DeserializeObject<WechatModel>(res);
+                                if (data.success)
+                                {
+                                    SetText("微信消息推送成");
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                SetText($"推送错误{ex.Message}");
+                                SetText($"推送错误{ex.StackTrace}");
                             }
                         }
-                        catch (Exception ex)
+                        //报警
+                        if (checkMusic.Checked)
                         {
-                            SetText($"推送错误{ex.Message}");
-                            SetText($"推送错误{ex.StackTrace}");
+                            try
+                            {
+                                sp.SoundLocation = Path.Combine(Application.StartupPath, "music", $"{comMusic.Text}.wav");
+                                sp.PlayLooping();
+                            }
+                            catch (Exception ex)
+                            {
+                                SetText(ex.Message);
+                            }
                         }
+                        
                     }
                 }
                 p.WaitForExit();
@@ -566,17 +582,61 @@ namespace TestKeyboard
             }
         }
 
-        public void CalcData(IAsyncResult ar)
+        public void RefrData()
         {
-            //刷新
             try
             {
                 SetText("开启刷新");
                 while (isStaring)
                 {
-                    RefreshData();
                     Thread.Sleep(1000);
+                    RefreshData();
                 }
+            }
+            catch (Exception ex)
+            {
+                SetText(ex.Message);
+            }
+        }
+
+
+        public void CalcData()
+        {
+            //刷新
+            try
+            {
+                SetText("开启计算");
+                while (isStaring)
+                {
+                    Thread.Sleep(10);
+                    for (int i = 0; i < jobs.Count; i++)
+                    {
+                        Job item = jobs[i];
+                        item.less = item.less - 13;
+                        if (item.less < 0) item.less = item.time;
+                        if (!isStaring)
+                            return;
+                        if (item.count > 0 && item.countLess >= item.count)
+                            continue;
+                        if (item.less <= 0 || item.less == item.time)
+                            item.isCanStar = true;
+                    }
+                    //DateTime starTime = DateTime.Now;
+                    //var lessJobs = jobs.Where(t => t.count > 0 && t.countLess >= t.count).ToList();
+                    //if (lessJobs.Count == jobs.Count)
+                    //{
+                    //    isStaring = false;
+                    //    SetText("所有任务执行结束");
+                    //}
+                }
+
+
+
+
+
+
+
+
             }
             catch (Exception ex)
             {
@@ -584,7 +644,7 @@ namespace TestKeyboard
             }
 
         }
-        public void CaclTime(IAsyncResult ar)
+        public void CaclTime()
         {
             //统计
             try
@@ -738,59 +798,11 @@ namespace TestKeyboard
         {
             try
             {
-                var jtype = (KeyValuePair<int, JobType>)comJob.SelectedItem;
+
                 Job job = new Job();
-                if (jtype.Key == JobType.按键任务.GetHashCode())
-                {
-                    job = new Job
-                    {
-                        content = (KeyBoard)this.comBoard.SelectedValue,
-                    };
-                }
-                else if (jtype.Key == JobType.点击任务.GetHashCode())
-                {
-                    job = new Job
-                    {
-                        content = (EnumMouse)this.comMouse.SelectedValue,
-                        x = (int)posX.Value,
-                        y = (int)posY.Value
-                    };
-                }
-                else if (jtype.Key == JobType.聚焦窗体.GetHashCode())
-                {
-                    job = new Job
-                    {
-                        content = this.windowName.Text,
-                    };
-                }
-                else if (jtype.Key == JobType.移动窗体.GetHashCode())
-                {
-                    job = new Job
-                    {
-                        content = this.windowName.Text,
-                        x = Convert.ToInt32(posX.Value),
-                        y = Convert.ToInt32(posY.Value),
-
-                    };
-
-                }
-                else if (jtype.Key == JobType.截图窗体.GetHashCode())
-                {
-                    job = new Job
-                    {
-                        content = this.windowName.Text,
-                    };
-                }
                 jobs.Add(job);
-                job.type = (JobType)this.comJob.SelectedValue;
-                job.time = (int)(Convert.ToDecimal(numTime.Text) * 1000);
-                job.less = (int)(Convert.ToDecimal(numTime.Text) * 1000);
-                job.delay = (int)(Convert.ToDecimal(numDelay.Text) * 1000);
-                job.duration = (int)(Convert.ToDecimal(textDuration.Text) * 1000);
-                job.contentName = job.content.ToString();
-                job.typeName = job.type.ToString();
-                job.count = Convert.ToInt32(numCount.Value);
-                job.remark = txtRemark.Text;
+                SetTime(job);
+                SetTask(job);
 
                 RefreshData();
                 SetText("添加成功");
@@ -801,6 +813,50 @@ namespace TestKeyboard
                 SetText(ex.Message);
             }
         }
+
+        private void SetTask(Job job)
+        {
+            var jtype = (KeyValuePair<int, JobType>)comJob.SelectedItem;
+            if (jtype.Key == JobType.按键任务.GetHashCode())
+            {
+                job.content = (KeyBoard)this.comBoard.SelectedValue;
+            }
+            else if (jtype.Key == JobType.点击任务.GetHashCode())
+            {
+                job.content = (EnumMouse)this.comMouse.SelectedValue;
+                job.x = (int)posX.Value;
+                job.y = (int)posY.Value;
+            }
+            else if (jtype.Key == JobType.聚焦窗体.GetHashCode())
+            {
+                job.content = this.windowName.Text;
+            }
+            else if (jtype.Key == JobType.移动窗体.GetHashCode())
+            {
+                job.content = this.windowName.Text;
+                job.x = Convert.ToInt32(posX.Value);
+                job.y = Convert.ToInt32(posY.Value);
+            }
+            else if (jtype.Key == JobType.截图检测.GetHashCode())
+            {
+                job.content = this.windowName.Text;
+            }
+            job.isAsync = checkAysnc.Checked;
+            job.type = (JobType)this.comJob.SelectedValue;
+            job.contentName = job.content.ToString();
+            job.typeName = job.type.ToString();
+            job.count = Convert.ToInt32(numCount.Value);
+            job.remark = txtRemark.Text;
+        }
+
+        private void SetTime(Job job)
+        {
+            job.time = (int)(Convert.ToDecimal(numTime.Text) * 1000);
+            job.less = (int)(Convert.ToDecimal(numTime.Text) * 1000);
+            job.delay = (int)(Convert.ToDecimal(numDelay.Text) * 1000);
+            job.duration = (int)(Convert.ToDecimal(textDuration.Text) * 1000);
+        }
+
         public void SaveConfig()
         {
             var config = Newtonsoft.Json.JsonConvert.SerializeObject(jobs, Formatting.Indented);
@@ -832,13 +888,13 @@ namespace TestKeyboard
                 item.content = (KeyBoard)Enum.ToObject(typeof(KeyBoard), Convert.ToInt32(item.content));
             if (item.type == JobType.点击任务 && item.content is long)
                 item.content = (EnumMouse)Enum.ToObject(typeof(EnumMouse), Convert.ToInt32(item.content));
-            if (item.children != null && item.children.Count > 0)
-            {
-                foreach (var child in item.children)
-                {
-                    ConvertJobType(child);
-                }
-            }
+            //if (item.children != null && item.children.Count > 0)
+            //{
+            //    foreach (var child in item.children)
+            //    {
+            //        ConvertJobType(child);
+            //    }
+            //}
         }
 
         private void btnDel_Click(object sender, EventArgs e)
@@ -846,13 +902,13 @@ namespace TestKeyboard
             try
             {
                 if (MessageBox.Show("确定要删除?", "提示", MessageBoxButtons.OKCancel) != DialogResult.OK) return;
-                var row = gridJobs.SelectedRows;
-                if (row.Count > 0)
+                var row = viewJobs.GetSelectedRows();
+                if (row.Length > 0)
                 {
                     List<Job> ls = new List<Job>();
-                    foreach (DataGridViewRow item in row)
+                    foreach (int idx in row)
                     {
-                        var tjob = (Job)item.DataBoundItem;
+                        var tjob = (Job)viewJobs.GetRow(idx);
                         ls.Add(tjob);
                     }
                     foreach (var item in ls)
@@ -887,9 +943,22 @@ namespace TestKeyboard
         public void RefreshData()
         {
 
-            this.gridJobs.BeginInvoke(new Action(() =>
+            //this.gridJobs.BeginInvoke(new Action(() =>
+            //{
+            //    source.ResetBindings(false);
+            //}));
+            //gridJobs.DataSource = null;
+            //source = new BindingSource();
+            //source.DataSource = jobs;
+            //gridJobs.DataSource = jobs;  
+
+            //gridJobs.RefreshDataSource();
+
+
+            this.BeginInvoke(new Action(() =>
             {
-                source.ResetBindings(false);
+                viewJobs.RefreshData();
+                viewJobs.BestFitColumns();
             }));
         }
 
@@ -920,19 +989,17 @@ namespace TestKeyboard
 
         private void button7_Click(object sender, EventArgs e)
         {
-            Action action = new Action(() => { });
-            action.BeginInvoke(TestScreen, null);
+            Task.Run(TestScreen);
         }
 
         Process p;
-        public void TestScreen(IAsyncResult data)
+        public void TestScreen()
         {
             try
             {
                 Thread.Sleep(1000);
                 //var screen = ScreenCat.GetScreen(checkScreen.Checked, (int)posX.Value, (int)posY.Value, (int)numWidth.Value, (int)numHeight.Value);
-                var msg = "";
-                mFocus = new Foreground();
+                var msg = ""; 
                 mFocus.FocusWindow(windowName.Text, ref msg);
                 var screen = ScreenCat.GetScreen(windowName.Text);
                 var savePath = Path.Combine(Application.StartupPath, "pics", $"{DateTime.Now.ToString("yyyMMddHHmmss")}.jpg");
@@ -947,47 +1014,28 @@ namespace TestKeyboard
         }
         private void btnTest_Click(object sender, EventArgs e)
         {
+          
             try
             {
-
-                var myScript = "D:/hudingwen/github/my-OpenCV-Python/043-find_lun.py";
-                // 创建一个ProcessStartInfo对象
-                ProcessStartInfo startInfo = new ProcessStartInfo
-                {
-                    FileName = "cmd.exe",
-                    RedirectStandardInput = true,
-                    RedirectStandardOutput = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                };
-
-                // 创建一个Process对象，并启动进程
-                Process cmdProcess = new Process
-                {
-                    StartInfo = startInfo
-                };
-                cmdProcess.Start();
-
-                // 获取标准输入和输出流
-                var cmdIn = cmdProcess.StandardInput;
-                var cmdOut = cmdProcess.StandardOutput;
-                 
-                cmdProcess.StandardInput.WriteLine("ping"); // 向Python发送输入
-                cmdProcess.StandardInput.Flush();
-
-                string output = cmdProcess.StandardOutput.ReadToEnd(); // 从Python获取输出
-                Console.WriteLine(output);
-
-
+                sp.Stop();
             }
             catch (Exception ex)
             {
                 SetText(ex.Message);
             }
         }
+        System.Media.SoundPlayer sp = new SoundPlayer();
         private void btntest_stop_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                sp.SoundLocation = Path.Combine(Application.StartupPath, "music", $"{comMusic.Text}.wav");
+                sp.PlayLooping();
+            }
+            catch (Exception ex)
+            {
+                SetText(ex.Message);
+            }
 
         }
 
@@ -1010,7 +1058,7 @@ namespace TestKeyboard
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(jobName.Text)) throw new Exception("任务名称不能为空");
+                if (string.IsNullOrWhiteSpace(jobName.Text)) throw new Exception("任务组名称不能为空");
 
 
                 var dic = Path.Combine(Application.StartupPath, "jobs");
@@ -1067,13 +1115,13 @@ namespace TestKeyboard
         {
             try
             {
-                var row = gridJobs.SelectedRows;
-                if (row.Count > 0)
+                var row = viewJobs.GetSelectedRows();
+                if (row.Length > 0)
                 {
                     List<Job> ls = new List<Job>();
-                    foreach (DataGridViewRow item in row)
+                    foreach (int idx in row)
                     {
-                        var tjob = (Job)item.DataBoundItem;
+                        var tjob = (Job)viewJobs.GetRow(idx);
                         ls.Add(tjob);
                     }
                     foreach (var item in ls)
@@ -1109,34 +1157,24 @@ namespace TestKeyboard
         {
             try
             {
-                var row = gridJobs.SelectedRows;
-                if (row.Count > 0)
+                var row = viewJobs.GetSelectedRows();
+                if (row.Length > 0)
                 {
                     List<Job> ls = new List<Job>();
-                    foreach (DataGridViewRow item in row)
+                    foreach (int item in row)
                     {
-                        var tjob = (Job)item.DataBoundItem;
+                        var tjob = (Job)viewJobs.GetRow (item);
                         ls.Add(tjob);
                     }
                     foreach (var item in ls)
                     {
-                        item.time = (int)(Convert.ToDecimal(numTime.Text) * 1000);
-                        item.less = (int)(Convert.ToDecimal(numTime.Text) * 1000);
-                        item.delay = (int)(Convert.ToDecimal(numDelay.Text) * 1000);
-                        item.duration = (int)(Convert.ToDecimal(textDuration.Text) * 1000);
+                        SetTime(item);
                     }
-
-                    RefreshData();
-                    SaveConfig();
                     SetText($"时间设置成功");
                 }
                 else
                 {
-                    foreach (var item in jobs)
-                    {
-                        item.countLess = 0;
-                        item.count = Convert.ToInt32(numCount.Value);
-                    }
+                    SetText($"请选择要设置时间的任务");
                 }
 
                 RefreshData();
@@ -1153,13 +1191,13 @@ namespace TestKeyboard
         {
             try
             {
-                var rows = gridJobs.SelectedRows;
-                if (!(rows != null && rows.Count == 1))
+                var rows = viewJobs.GetSelectedRows();
+                if (!(rows != null && rows.Length == 1))
                 {
                     SetText("请选择一个数据");
                     return;
                 }
-                var curRow = (Job)rows[0].DataBoundItem;
+                var curRow = (Job)viewJobs.GetRow(rows[0]);
                 int idx = jobs.FindIndex(t => t == curRow);
                 MoveUp<Job>(jobs, idx);
                 RefreshData();
@@ -1177,13 +1215,13 @@ namespace TestKeyboard
         {
             try
             {
-                var rows = gridJobs.SelectedRows;
-                if (!(rows != null && rows.Count == 1))
+                var rows = viewJobs.GetSelectedRows();
+                if (!(rows != null && rows.Length == 1))
                 {
                     SetText("请选择一个数据");
                     return;
                 }
-                var curRow = (Job)rows[0].DataBoundItem;
+                var curRow = (Job)viewJobs.GetRow(rows[0]);
                 int idx = jobs.FindIndex(t => t == curRow);
                 MoveDown<Job>(jobs, idx);
                 RefreshData();
@@ -1325,6 +1363,44 @@ namespace TestKeyboard
                 SetText(ex.Message);
             }
         }
-        
+
+        private void btnSetTask_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var row = viewJobs.GetSelectedRows();
+                if (row.Length == 1)
+                {
+                    var item = (Job)viewJobs.GetRow(row[0]);   
+                    SetTask(item);
+                    SetText($"任务设置成功");
+                }
+                else
+                {
+                    SetText($"请选择一个要重新设置的任务");
+                }
+
+                RefreshData();
+                SaveConfig();
+
+            }
+            catch (Exception ex)
+            {
+                SetText(ex.Message);
+            }
+        }
+
+        private void btnStopMusic_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                sp.Stop();
+                SetText("停止播放");
+            }
+            catch (Exception ex)
+            {
+                SetText(ex.Message);
+            }
+        }
     }
 }

@@ -13,6 +13,6 @@ namespace TestKeyboard.Entity
         点击任务 = 2,
         聚焦窗体 = 3,
         移动窗体 = 4,
-        截图窗体 = 5
+        截图检测 = 5
     }
 }

@@ -49,11 +49,7 @@ namespace TestKeyboard.Entity
         /// <summary>
         /// 已经运行次数
         /// </summary>
-        public int countLess { get; set; }
-        /// <summary>
-        /// 子任务
-        /// </summary>
-        public List<Job> children { get; set; }
+        public int countLess { get; set; } 
         /// <summary>
         /// 样本路径
         /// </summary>
@@ -63,5 +59,15 @@ namespace TestKeyboard.Entity
         /// 备注
         /// </summary>
         public string remark { get; set; }
+        /// <summary>
+        /// 是否可以开始
+        /// </summary>
+
+        public bool isCanStar { get; set; }
+        /// <summary>
+        /// 是否异步执行
+        /// </summary>
+
+        public bool isAsync { get; set; }
     }
 }
