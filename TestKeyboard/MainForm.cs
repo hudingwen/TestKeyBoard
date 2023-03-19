@@ -336,7 +336,7 @@ namespace TestKeyboard
                 //刷新显示
                 Task.Run(RefrData);
                 //任务计算
-                Task.Run(CalcData);
+                Task.Run(CalcData); 
                 //定时回写
                 Task.Run(WriteTask);
                 //定时任务
@@ -612,7 +612,7 @@ namespace TestKeyboard
                     for (int i = 0; i < jobs.Count; i++)
                     {
                         Job item = jobs[i];
-                        item.less = item.less - 13;
+                        item.less = item.less - 15;
                         if (item.less < 0) item.less = item.time;
                         if (!isStaring)
                             return;
@@ -621,29 +621,14 @@ namespace TestKeyboard
                         if (item.less <= 0 || item.less == item.time)
                             item.isCanStar = true;
                     }
-                    //DateTime starTime = DateTime.Now;
-                    //var lessJobs = jobs.Where(t => t.count > 0 && t.countLess >= t.count).ToList();
-                    //if (lessJobs.Count == jobs.Count)
-                    //{
-                    //    isStaring = false;
-                    //    SetText("所有任务执行结束");
-                    //}
                 }
-
-
-
-
-
-
-
-
             }
             catch (Exception ex)
             {
                 SetText(ex.Message);
             }
 
-        }
+        } 
         public void CaclTime()
         {
             //统计
