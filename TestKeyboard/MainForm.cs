@@ -358,7 +358,6 @@ namespace TestKeyboard
                 //循环任务
                 while (isStaring)
                 {
-
                     for (int i = 0; i < jobs.Count; i++)
                     {
                         if (!isStaring)
@@ -366,11 +365,15 @@ namespace TestKeyboard
                         Job item = jobs[i];
                         if (item.isCanStar)
                         {
-                            item.isCanStar = false;
                             if (item.isAsync)
+                            {
+                                item.isCanStar = false;
                                 Task.Run(() => { StarJob(item); });
+                            }
                             else
+                            {
                                 StarJob(item);
+                            }
                         }
                         Thread.Sleep(10);
                     }
@@ -384,7 +387,6 @@ namespace TestKeyboard
                 isStaring = false;
             }
         }
-
         private void StarJob(Job item)
         {
             try
@@ -477,6 +479,7 @@ namespace TestKeyboard
             {
                 SetText(ex.Message);
             }
+            item.isCanStar = false;
         }
 
         private void CheckPicture(string savePath, CheckType checkType)
