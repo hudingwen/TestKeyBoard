@@ -321,15 +321,11 @@ namespace TestKeyboard
                     return;
                 }
                 isStaring = true;
-
                 for (int i = 0; i < jobs.Count; i++)
                 {
                     Job item = jobs[i];
-                    if (item.count > 0 && item.countLess >= item.count)
-                        continue;
-                    if (!(item.less <= 0 || item.less == item.time))
-                        continue;
-                    item.isCanStar = true;
+                    if (item.less == item.time)
+                        item.isFirstRun = true;
                 }
                 //时间统计
                 Task.Run(CaclTime);
@@ -363,11 +359,11 @@ namespace TestKeyboard
                         if (!isStaring)
                             return;
                         Job item = jobs[i];
-                        if (item.isCanStar)
+                        if(item.less == 0 || item.isFirstRun)
                         {
+                            item.isFirstRun = false;
                             if (item.isAsync)
                             {
-                                item.isCanStar = false;
                                 Task.Run(() => { StarJob(item); });
                             }
                             else
@@ -468,6 +464,10 @@ namespace TestKeyboard
                     Task.Run(() => { CheckPicture(savePath, CheckType.解轮检测); });
                     Task.Run(() => { CheckPicture(savePath, CheckType.蘑菇测谎); });
                 }
+
+                if (item.less == 0)
+                    item.less = item.time;
+
                 //后置延迟
                 if (item.delay > 0)
                     Thread.Sleep((int)item.delay);
@@ -478,8 +478,7 @@ namespace TestKeyboard
             catch (Exception ex)
             {
                 SetText(ex.Message);
-            }
-            item.isCanStar = false;
+            } 
         }
 
         private void CheckPicture(string savePath, CheckType checkType)
@@ -615,14 +614,9 @@ namespace TestKeyboard
                     for (int i = 0; i < jobs.Count; i++)
                     {
                         Job item = jobs[i];
+                        if (item.less == 0) continue;
                         item.less = item.less - 15;
-                        if (item.less < 0) item.less = item.time;
-                        if (!isStaring)
-                            return;
-                        if (item.count > 0 && item.countLess >= item.count)
-                            continue;
-                        if (item.less <= 0 || item.less == item.time)
-                            item.isCanStar = true;
+                        if (item.less < 0) item.less = 0;
                     }
                 }
             }

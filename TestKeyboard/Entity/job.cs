@@ -60,10 +60,10 @@ namespace TestKeyboard.Entity
         /// </summary>
         public string remark { get; set; }
         /// <summary>
-        /// 是否可以开始
+        /// 是否第一次开始
         /// </summary>
 
-        public bool isCanStar { get; set; }
+        public bool isFirstRun { get; set; }
         /// <summary>
         /// 是否异步执行
         /// </summary>
