@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using System.Windows.Forms;
 
 namespace TestKeyboard
@@ -11,6 +12,7 @@ namespace TestKeyboard
         /// 应用程序的主入口点。
         /// </summary>
         [STAThread]
+        [HandleProcessCorruptedStateExceptions]
         static void Main()
         {
             try

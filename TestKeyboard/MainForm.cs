@@ -262,25 +262,15 @@ namespace TestKeyboard
                         var isok = queue.TryDequeue(out log);
                         if (isok && !string.IsNullOrEmpty(log))
                         {
-                            richLogs.AppendText(log);
-                            richLogs.ScrollToCaret();
+                            richLogs.BeginInvoke(new Action(() =>
+                            { 
+                                richLogs.AppendText(log);
+                                richLogs.ScrollToCaret();
+                            }));
                         }
                     }
                     Thread.Sleep(100);
-                }
-                //if (ar.AsyncState == null) return;
-                //string logStr = ar.AsyncState.ToString();
-                //if (list.Count > 20)
-                //{
-                //    for (int i = 0; i < 30; i++)
-                //    {
-                //        string temp;
-                //        list.TryTake(out temp);
-                //    }
-                //}
-                //list.Add(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ffff") + "-" + logStr);
-                //richLogs.Text = string.Join("\r\n", list.OrderByDescending(t => t));
-
+                } 
 
             }
             catch (Exception ex)
@@ -359,7 +349,7 @@ namespace TestKeyboard
                         if (!isStaring)
                             return;
                         Job item = jobs[i];
-                        if(item.less == 0 || item.isFirstRun)
+                        if ((item.less == 0 || item.isFirstRun) && (item.count == 0 || (item.count > 0 && item.count > item.countLess)))
                         {
                             item.isFirstRun = false;
                             if (item.isAsync)
@@ -610,7 +600,6 @@ namespace TestKeyboard
                 SetText("开启计算");
                 while (isStaring)
                 {
-                    Thread.Sleep(10);
                     for (int i = 0; i < jobs.Count; i++)
                     {
                         Job item = jobs[i];
@@ -618,6 +607,7 @@ namespace TestKeyboard
                         item.less = item.less - 15;
                         if (item.less < 0) item.less = 0;
                     }
+                    Thread.Sleep(10);
                 }
             }
             catch (Exception ex)
@@ -667,8 +657,10 @@ namespace TestKeyboard
         public void StopTask()
         {
             isStaring = false;
+            
             SaveConfig();
             SetText("任务停止");
+            sp.Stop();
         }
 
 
@@ -785,7 +777,6 @@ namespace TestKeyboard
                 jobs.Add(job);
                 SetTime(job);
                 SetTask(job);
-
                 RefreshData();
                 SetText("添加成功");
                 SaveConfig();
@@ -837,6 +828,7 @@ namespace TestKeyboard
             job.less = (int)(Convert.ToDecimal(numTime.Text) * 1000);
             job.delay = (int)(Convert.ToDecimal(numDelay.Text) * 1000);
             job.duration = (int)(Convert.ToDecimal(textDuration.Text) * 1000);
+            job.isFirstRun = true;
         }
 
         public void SaveConfig()
