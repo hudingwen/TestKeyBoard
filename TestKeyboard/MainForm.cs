@@ -10,23 +10,21 @@ using TestKeyboard.Entity;
 using TestKeyboard.MonitorEvent;
 using TestKeyboard.PressKey;
 using TestKeyboard.Screen;
-using TestKeyboard.SetForegroundWindow;
-using System.Text;
-using System.Collections.Concurrent;
-using System.Linq;
+using TestKeyboard.SetForegroundWindow; 
+using System.Collections.Concurrent; 
 using System.Diagnostics;
 using System.Net.Http;
-using System.Runtime.InteropServices;
-using System.Data;
-using System.Net;
+using System.Runtime.InteropServices; 
 using System.Threading.Tasks;
 using Gma.QrCodeNet.Encoding.Windows.Render;
-using Gma.QrCodeNet.Encoding;
-using System.Drawing.Imaging;
+using Gma.QrCodeNet.Encoding; 
 using System.Configuration;
 using DevExpress.XtraGrid.Columns;
 using System.Media;
-using DevExpress.XtraEditors.Controls;
+using DevExpress.XtraEditors.Controls;  
+using System.Collections;
+using DevExpress.CodeParser;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace TestKeyboard
 {
@@ -96,11 +94,11 @@ namespace TestKeyboard
         public MainForm()
         {
             InitializeComponent();
-            this.FormClosing += MainForm_FormClosing;
+            this.FormClosing += MainForm_FormClosing; 
             Control.CheckForIllegalCrossThreadCalls = false;
 
 
-        }
+        } 
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -145,14 +143,23 @@ namespace TestKeyboard
                 viewJobs.Columns.Add(new GridColumn { FieldName = "content", Caption = "内容", Width = 200, Visible = true });
                 viewJobs.Columns.Add(new GridColumn { FieldName = "x", Caption = "X坐标", Width = 200, Visible = true });
                 viewJobs.Columns.Add(new GridColumn { FieldName = "y", Caption = "Y坐标", Width = 200, Visible = true });
+                viewJobs.Columns.Add(new GridColumn { FieldName = "width", Caption = "宽度", Width = 200, Visible = true });
+                viewJobs.Columns.Add(new GridColumn { FieldName = "height", Caption = "高度", Width = 200, Visible = true });
                 viewJobs.Columns.Add(new GridColumn { FieldName = "duration", Caption = "持续时间(ms)", Width = 200, Visible = true });
                 viewJobs.Columns.Add(new GridColumn { FieldName = "delay", Caption = "后置延迟(ms)", Width = 200, Visible = true });
                 viewJobs.Columns.Add(new GridColumn { FieldName = "count", Caption = "运行次数", Width = 200, Visible = true });
                 viewJobs.Columns.Add(new GridColumn { FieldName = "countLess", Caption = "已运行次数", Width = 200, Visible = true });
                 viewJobs.Columns.Add(new GridColumn { FieldName = "isAsync", Caption = "并行任务", Width = 200, Visible = true });
+                viewJobs.Columns.Add(new GridColumn { FieldName = "enable", Caption = "启用", Width = 200, Visible = true });
+
 
                 comMusic.SelectedIndex = 0;
                 comMusic.Properties.TextEditStyle = TextEditStyles.DisableTextEditor;
+
+                
+                comTask.SelectedValueChanged += comTask_SelectedValueChanged;
+
+
             }
             catch (Exception ex)
             {
@@ -168,33 +175,26 @@ namespace TestKeyboard
 
             runTime = DateTime.Now;
             //任务类型
+            comJob.Properties.Items.Clear();
             foreach (JobType item in Enum.GetValues(typeof(JobType)))
             {
-                dict.Add(item.GetHashCode(), item);
+                comJob.Properties.Items.Add(item.ToString(),item,0);
             }
-            comJob.DataSource = new BindingSource(dict, null);
-            comJob.DisplayMember = "Value";
-            comJob.ValueMember = "Key";
-
             //键盘类型 
             foreach (KeyBoard item in Enum.GetValues(typeof(KeyBoard)))
             {
-                dicBoard.Add(item.GetHashCode(), item);
+                var name = item.ToString();
+                if (name.Equals("空格键"))
+                {
+
+                }
+                comBoard.Properties.Items.Add(item.ToString(), item, 0);
             }
-            comBoard.DataSource = new BindingSource(dicBoard, null);
-            comBoard.DisplayMember = "Value";
-            comBoard.ValueMember = "Key";
-
-
             //鼠标类型 
             foreach (EnumMouse item in Enum.GetValues(typeof(EnumMouse)))
             {
-                dicMouse.Add(item.GetHashCode(), item);
-            }
-            comMouse.DataSource = new BindingSource(dicMouse, null);
-            comMouse.DisplayMember = "Value";
-            comMouse.ValueMember = "Key";
-
+                comMouse.Properties.Items.Add(item.ToString(), item, 0);
+            } 
             //任务列表
             ReadTask();
 
@@ -202,10 +202,21 @@ namespace TestKeyboard
             gridJobs.DataSource = jobs;
 
 
+            //设置默认
+            
+            comJob.SelectedIndex = 0;
+            comBoard.SelectedIndex  = 0;
+            comMouse.SelectedIndex = 0; 
+
+
+
+
         }
-        public void ReadTask()
+
+        public void ReadTask(string taskName="")
         {
             dicjobs.Clear();
+            comTask.Properties.Items.Clear();
             var dic = Path.Combine(Application.StartupPath, "jobs");
             if (!Directory.Exists(dic)) Directory.CreateDirectory(dic);
             var files = Directory.GetFiles(dic, "*.config");
@@ -219,23 +230,63 @@ namespace TestKeyboard
             {
                 dicjobs.Add(Path.GetFileNameWithoutExtension(item), item);
             }
-            comTask.DataSource = new BindingSource(dicjobs, null);
-            comTask.DisplayMember = "Key";
-            comTask.ValueMember = "Value";
-        }
-        private void gridJobs_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
-        {
-            //Rectangle rectangle = new Rectangle(e.RowBounds.Location.X,
-            //    e.RowBounds.Location.Y,
-            //    gridJobs.RowHeadersWidth - 4,
-            //    e.RowBounds.Height);
-            //TextRenderer.DrawText(e.Graphics, (e.RowIndex + 1).ToString(),
-            //    gridJobs.RowHeadersDefaultCellStyle.Font,
-            //    rectangle,
-            //    gridJobs.RowHeadersDefaultCellStyle.ForeColor,
-            //    TextFormatFlags.VerticalCenter | TextFormatFlags.Right);
-        }
-        ConcurrentBag<string> list = new ConcurrentBag<string>();
+            foreach(var item in dicjobs)
+            {
+                comTask.Properties.Items.Add(item.Key,item.Value,0);
+            }
+
+
+            try
+            { 
+                var configPath = Path.Combine(Application.StartupPath, "config", "settings.config");
+                if (File.Exists(configPath))
+                {
+                    var settings = File.ReadAllText(configPath);
+                    var setInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<ConfigInfo>(settings);
+                    
+                    checkMusic.Checked = setInfo.isPlay;
+                    comMusic.Text = setInfo.playName;
+                    if (!string.IsNullOrEmpty(taskName))
+                        setInfo.taskName = taskName;
+                    var taskIdx = 0;
+                    bool isEnter = false;
+                    foreach (var item in dicjobs)
+                    {
+                        if (item.Key.Equals(setInfo.taskName))
+                        {
+                            comTask.SelectedIndex = taskIdx;
+                            isEnter = true;
+                            break;
+                        }
+                        taskIdx++;
+                    }
+                    if (!isEnter)
+                        comTask.SelectedIndex = 0;
+                }
+                else
+                {
+                    var taskIdx = 0;
+                    bool isEnter = false;
+                    foreach (var item in dicjobs)
+                    {
+                        if (item.Key.Equals(taskName))
+                        {
+                            comTask.SelectedIndex = taskIdx;
+                            isEnter = true;
+                            break;
+                        }
+                        taskIdx++;
+                    }
+                    if (!isEnter)
+                        comTask.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                SetText(ex.Message);
+            }
+
+        } 
         public void SetText(string logStr, bool isClean = false)
         {
             try
@@ -246,7 +297,7 @@ namespace TestKeyboard
             }
             catch (Exception)
             {
-
+               
             }
 
         }
@@ -266,7 +317,7 @@ namespace TestKeyboard
                             { 
                                 richLogs.AppendText(log);
                                 richLogs.ScrollToCaret();
-                            }));
+                            })); 
                         }
                     }
                     Thread.Sleep(100);
@@ -327,6 +378,8 @@ namespace TestKeyboard
                 Task.Run(WriteTask);
                 //定时任务
                 Task.Run(RunJob);
+                //定时删除截图文件
+                Task.Run(DeleHistoryPics);
             }
             catch (Exception ex)
             {
@@ -349,7 +402,7 @@ namespace TestKeyboard
                         if (!isStaring)
                             return;
                         Job item = jobs[i];
-                        if ((item.less == 0 || item.isFirstRun) && (item.count == 0 || (item.count > 0 && item.count > item.countLess)))
+                        if ((item.less == 0 || item.isFirstRun) && (item.count == 0 || (item.count > 0 && item.count > item.countLess)) && item.enable)
                         {
                             item.isFirstRun = false;
                             if (item.isAsync)
@@ -383,30 +436,66 @@ namespace TestKeyboard
                 {
 
                     var key = (KeyBoard)item.content;
-                    if (item.duration > 0)
-                        key_down((int)key);
-                    else
-                        click((int)key);
-                    //if (item.children != null && item.children.Count > 0)
-                    //{
-                    //    foreach (var child in item.children)
-                    //    {
-                    //        StarJob(child);
-                    //    }
-                    //}
-                    if (item.duration > 0)
-                    {
-                        Thread.Sleep(item.duration);
-                        key_up((int)key);
-                    }
-                    //取反
-                    if (key == KeyBoard.LeftArrow || key == KeyBoard.RightArrow)
-                    {
 
-                        if (key == KeyBoard.LeftArrow)
-                            item.content = KeyBoard.RightArrow;
-                        else if (key == KeyBoard.RightArrow)
-                            item.content = KeyBoard.LeftArrow;
+                    if (key == KeyBoard.左右走)
+                    {
+                        if (item.flag)
+                        {
+                            if (item.duration > 0)
+                                key_down((int)KeyBoard.LeftArrow);
+                            else
+                                click((int)key);
+                            if (item.duration > 0)
+                            {
+                                Thread.Sleep(item.duration);
+                                key_up((int)KeyBoard.LeftArrow);
+                            }
+                            Thread.Sleep(item.delay);
+                            if (item.duration > 0)
+                                key_down((int)KeyBoard.RightArrow);
+                            else
+                                click((int)key);
+                            if (item.duration > 0)
+                            {
+                                Thread.Sleep(item.duration);
+                                key_up((int)KeyBoard.RightArrow);
+                            }
+                        }
+                        else
+                        {
+                            if (item.duration > 0)
+                                key_down((int)KeyBoard.RightArrow);
+                            else
+                                click((int)key);
+                            if (item.duration > 0)
+                            {
+                                Thread.Sleep(item.duration);
+                                key_up((int)KeyBoard.RightArrow);
+                            }
+                            Thread.Sleep(item.delay);
+                            if (item.duration > 0)
+                                key_down((int)KeyBoard.LeftArrow);
+                            else
+                                click((int)key);
+                            if (item.duration > 0)
+                            {
+                                Thread.Sleep(item.duration);
+                                key_up((int)KeyBoard.LeftArrow);
+                            }
+                        }
+                        item.flag = !item.flag;
+                    }
+                    else
+                    {
+                        if (item.duration > 0)
+                            key_down((int)key);
+                        else
+                            click((int)key);
+                        if (item.duration > 0)
+                        {
+                            Thread.Sleep(item.duration);
+                            key_up((int)key);
+                        }
                     }
                     SetText("按键" + item.content.ToString());
                 }
@@ -446,13 +535,92 @@ namespace TestKeyboard
                 else if (item.type == JobType.截图检测)
                 {
                     var screen = ScreenCat.GetScreen(item.content.ToString());
-                    var savePath = Path.Combine(Application.StartupPath, "pics", $"{DateTime.Now.ToString("yyyMMddHHmmss")}.jpg");
+                    var savePath = Path.Combine(Application.StartupPath, "pics", $"{DateTime.Now.ToString("yyyMMddHHmmss")}.png");
                     ScreenCat.SaveImageWithQuality(savePath, screen, 70);
-                    picCut.Image = screen;
+
+                    picCut.BeginInvoke(new Action(() => { picCut.Image = screen; }));
+
                     SetText($"截图成功:{savePath}");
                     Task.Run(() => { CheckPicture(savePath, CheckType.一般测谎); });
                     Task.Run(() => { CheckPicture(savePath, CheckType.解轮检测); });
                     Task.Run(() => { CheckPicture(savePath, CheckType.蘑菇测谎); });
+
+                }
+                else if (item.type == JobType.姑姑神社)
+                {
+
+                    var isFind = FindText(item);
+                    if (!isFind) click((int)KeyBoard.Escape);
+                    while (!isFind)
+                    {
+                        //没有找到执行前面两个任务 
+                        var idx = jobs.FindIndex(t => t == item);
+                        StarJob(jobs[idx - 2]);
+                        StarJob(jobs[idx - 1]);
+                        isFind = FindText(item);
+                        if (!isFind) click((int)KeyBoard.Escape);
+                    }
+                    //找到了
+                    SetText("找到了姑姑");
+                    click((int)KeyBoard.空格键);
+                    Thread.Sleep(1000);
+                    click((int)KeyBoard.空格键);
+                    Thread.Sleep(1000);
+                    click((int)KeyBoard.空格键);
+                    Thread.Sleep(1000);
+                    click((int)KeyBoard.Escape);
+
+                    //切换任务
+                    StopTask();
+                    
+                    comTask.BeginInvoke(new Action(() => {
+                        int tidx = 0;
+                        foreach (var task in comTask.Properties.Items)
+                        {
+                            var tt = (ImageComboBoxItem)task;
+                            if (tt.Description.Equals("011-姑姑神社领奖")) break;
+                            tidx++;
+                        }
+                        comTask.SelectedIndex = tidx;
+                        Task.Run(() =>
+                        {
+                            Thread.Sleep(1000);
+                            //重置时间
+                            foreach (var j in jobs)
+                            { 
+                                j.less = j.time - 1;
+                            }
+                            Start();
+                        });
+                    }));
+
+                    
+                }
+                else if (item.type == JobType.姑姑领奖)
+                {
+                    StopTask();
+                    
+                    comTask.BeginInvoke(new Action(() => {
+                        int tidx = 0;
+                        foreach (var task in comTask.Properties.Items)
+                        {
+                            var tt = (ImageComboBoxItem)task;
+                            if (tt.Description.Equals("010-姑姑神社开始")) break;
+                            tidx++;
+                        }
+                        comTask.SelectedIndex = tidx;
+                        Task.Run(() =>
+                        {
+                            Thread.Sleep(1000);
+                            //重置时间
+                            foreach (var j in jobs)
+                            {
+                                j.less = j.time;
+                            }
+                            Start();
+                        }); 
+                    }));
+                    
                 }
 
                 if (item.less == 0)
@@ -470,6 +638,119 @@ namespace TestKeyboard
                 SetText(ex.Message);
             } 
         }
+
+        private bool FindText(Job item)
+        {
+            var screen = ScreenCat.GetScreen(false, item.x, item.y, item.width, item.height);
+            var savePath = Path.Combine(Application.StartupPath, "pics", $"{DateTime.Now.ToString("yyyMMddHHmmss")}.png");
+            ScreenCat.SaveImageWithQuality(savePath, screen, 70);
+
+
+            ////picCut.BeginInvoke(new Action(() => { picCut.Image = screen; }));
+
+            //TesseractEngine ocr = new TesseractEngine("./tessdata", "chi_tra");//设置语言   繁体 
+
+            //Bitmap bit = new Bitmap(Image.FromFile("D:\\hudingwen\\github\\my-OpenCV-Python\\pic\\mxd\\test\\sampleGuGu\\1.jpg"));
+            ////bit = ToGray(bit);
+            //picCut.BeginInvoke(new Action(() => { picCut.Image = bit; }));
+            ////bit = PreprocesImage(bit);//进行图像处理,如果识别率低可试试
+            //Page page = ocr.Process(bit, PageSegMode.SingleLine);
+            //string str = page.GetText();//识别后的内容
+            //page.Dispose();
+            //SetText(str);
+
+
+            Process p = new Process();
+            string path = Path.Combine(Application.StartupPath, "py", "045-find_text.py"); ;//待处理python文件的路径，本例中放在debug文件夹下
+            string sArguments = path;
+            ArrayList arrayList = new ArrayList();
+            //arrayList.Add("D:\\hudingwen\\github\\my-OpenCV-Python\\pic\\mxd\\test\\sampleGuGu\\4.jpg");
+            arrayList.Add(savePath);
+            foreach (var param in arrayList)//添加参数
+            {
+                sArguments += " " + param;
+            }
+
+            p.StartInfo.FileName = @"Python"; //python2.7的安装路径
+            p.StartInfo.Arguments = sArguments;//python命令的参数
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.RedirectStandardInput = true;
+            p.StartInfo.RedirectStandardError = true;
+            p.StartInfo.CreateNoWindow = true;
+            p.Start();//启动进程 
+
+            var msg_success = p.StandardOutput.ReadToEnd();  // 接收信息 
+            var msg_error = p.StandardError.ReadToEnd(); //接收错误信息
+            if (string.IsNullOrWhiteSpace(msg_success))
+            {
+                //没有正常返回
+                SetText($"检测出错-查找文字-{msg_error}");
+            }
+            else
+            {
+                SetText($"查找文字-{msg_success}");
+            }
+            if(msg_success.Contains("採集藥草") || msg_success.Contains("砍樹"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            //採集藥草 砍樹
+        }
+
+        /// <summary>
+        /// 图像灰度化算法（加权）
+        /// </summary>
+        /// <param name="inputBitmap">输入图像</param>
+        /// <param name="outputBitmap">输出图像</param>
+        public static Bitmap ToGray(Bitmap inputBitmap)
+        {
+            for (int i = 0; i < inputBitmap.Width; i++)
+            {
+                for (int j = 0; j < inputBitmap.Height; j++)
+                {
+                    Color color = inputBitmap.GetPixel(i, j);  //在此获取指定的像素的颜色
+                    int gray = (int)(color.R * 0.3 + color.G * 0.59 + color.B * 0.11);
+                    Color newColor = Color.FromArgb(gray, gray, gray);
+                    //设置指定像素的颜色  参数：坐标x,坐标y，颜色
+                    inputBitmap.SetPixel(i, j, newColor);
+                }
+            }
+           return inputBitmap;
+        }
+
+        public void DeleHistoryPics()
+        {
+            try
+            {
+                while (isStaring)
+                {
+                    //间隔一段时间删除
+                    var dic = Path.Combine(Application.StartupPath, "pics");
+                    if (!Directory.Exists(dic)) Directory.CreateDirectory(dic);
+                    var files = Directory.GetFiles(dic, "*.png");
+                    if (files != null)
+                   {
+                        //删除前一百张
+                        int length = files.Length - 100;
+                        for (int i = 0; i < length; i++)
+                        {
+                            File.Delete(files[i]);
+                        }
+                    }
+                    Thread.Sleep(30 * 60 * 1000);
+                }
+            }
+            catch (Exception ex)
+            {
+                SetText(ex.Message);
+            }
+        }
+         
 
         private void CheckPicture(string savePath, CheckType checkType)
         {
@@ -557,6 +838,7 @@ namespace TestKeyboard
                         {
                             try
                             {
+                                if (!isStaring) return;
                                 sp.SoundLocation = Path.Combine(Application.StartupPath, "music", $"{comMusic.Text}.wav");
                                 sp.PlayLooping();
                             }
@@ -789,59 +1071,116 @@ namespace TestKeyboard
 
         private void SetTask(Job job)
         {
-            var jtype = (KeyValuePair<int, JobType>)comJob.SelectedItem;
-            if (jtype.Key == JobType.按键任务.GetHashCode())
+            var jtype = (JobType)((ImageComboBoxItem)this.comJob.SelectedItem).Value;
+            if (jtype == JobType.按键任务)
             {
-                job.content = (KeyBoard)this.comBoard.SelectedValue;
+                job.content = (KeyBoard)((ImageComboBoxItem)this.comBoard.SelectedItem).Value;
             }
-            else if (jtype.Key == JobType.点击任务.GetHashCode())
+            else if (jtype == JobType.点击任务)
             {
-                job.content = (EnumMouse)this.comMouse.SelectedValue;
+                job.content = (EnumMouse)((ImageComboBoxItem)this.comMouse.SelectedItem).Value;
                 job.x = (int)posX.Value;
                 job.y = (int)posY.Value;
             }
-            else if (jtype.Key == JobType.聚焦窗体.GetHashCode())
+            else if (jtype == JobType.聚焦窗体)
             {
                 job.content = this.windowName.Text;
             }
-            else if (jtype.Key == JobType.移动窗体.GetHashCode())
+            else if (jtype == JobType.移动窗体)
             {
                 job.content = this.windowName.Text;
                 job.x = Convert.ToInt32(posX.Value);
                 job.y = Convert.ToInt32(posY.Value);
             }
-            else if (jtype.Key == JobType.截图检测.GetHashCode())
+            else if (jtype == JobType.截图检测)
             {
                 job.content = this.windowName.Text;
+            }else if(jtype== JobType.姑姑神社)
+            {
+                job.content = "";
+                job.x = (int)posX.Value;
+                job.y = (int)posY.Value;
+                job.width = (int)numWidth.Value;
+                job.height = (int)numHeight.Value;
+            }
+            else if (jtype == JobType.姑姑领奖)
+            {
+                job.content = "";
             }
             job.isAsync = checkAysnc.Checked;
-            job.type = (JobType)this.comJob.SelectedValue;
+            job.type = jtype;
             job.contentName = job.content.ToString();
             job.typeName = job.type.ToString();
             job.count = Convert.ToInt32(numCount.Value);
             job.remark = txtRemark.Text;
+            job.enable = true;
         }
 
         private void SetTime(Job job)
         {
-            job.time = (int)(Convert.ToDecimal(numTime.Text) * 1000);
-            job.less = (int)(Convert.ToDecimal(numTime.Text) * 1000);
+            job.time = (int)(Convert.ToDecimal(numTime.Value) * 1000);
+            job.less = (int)(Convert.ToDecimal(numTime.Value) * 1000);
             job.delay = (int)(Convert.ToDecimal(numDelay.Text) * 1000);
-            job.duration = (int)(Convert.ToDecimal(textDuration.Text) * 1000);
+            job.duration = (int)(Convert.ToDecimal(textDuration.Value) * 1000);
             job.isFirstRun = true;
         }
 
         public void SaveConfig()
         {
+            //保存任务
             var config = Newtonsoft.Json.JsonConvert.SerializeObject(jobs, Formatting.Indented);
-            File.WriteAllText(comTask.SelectedValue.ToString(), config);
+            File.WriteAllText(((ImageComboBoxItem)comTask.SelectedItem).Value.ToString(), config);
+
+            ConfigInfo configInfo = new ConfigInfo();
+            configInfo.isPlay = checkMusic.Checked;
+            configInfo.playName = comMusic.Text;
+            configInfo.taskName = comTask.Text;
+
+
+
+            var settings = Newtonsoft.Json.JsonConvert.SerializeObject(configInfo, Formatting.Indented);
+            var dic = Path.Combine(Application.StartupPath, "config");
+            if (!Directory.Exists(dic)) Directory.CreateDirectory(dic);
+            var setPath = Path.Combine(dic, "settings.config");
+
+            bool inUse = true;
+            //true表示正在使用,false没有使用
+            FileStream fs = null;
+            try
+            {
+
+                fs = new FileStream(setPath, FileMode.Open, FileAccess.Read,
+
+                FileShare.None);
+
+                inUse = false;
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                if (fs != null)
+
+                    fs.Close();
+            }
+            if (!inUse)
+            {
+                File.WriteAllText(setPath, settings);
+            }
+
+
+            
+
         }
         public void ReadConfig()
         {
             jobs.Clear();
-            if (File.Exists(comTask.SelectedValue.ToString()))
+            var filePath = ((ImageComboBoxItem)comTask.SelectedItem).Value.ToString();
+            if (File.Exists(filePath))
             {
-                var config = File.ReadAllText(comTask.SelectedValue.ToString());
+                var config = File.ReadAllText(filePath);
                 List<Job> ls = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Job>>(config);
                 if (ls != null && ls.Count > 0)
                 {
@@ -862,13 +1201,6 @@ namespace TestKeyboard
                 item.content = (KeyBoard)Enum.ToObject(typeof(KeyBoard), Convert.ToInt32(item.content));
             if (item.type == JobType.点击任务 && item.content is long)
                 item.content = (EnumMouse)Enum.ToObject(typeof(EnumMouse), Convert.ToInt32(item.content));
-            //if (item.children != null && item.children.Count > 0)
-            //{
-            //    foreach (var child in item.children)
-            //    {
-            //        ConvertJobType(child);
-            //    }
-            //}
         }
 
         private void btnDel_Click(object sender, EventArgs e)
@@ -916,19 +1248,6 @@ namespace TestKeyboard
         /// </summary>
         public void RefreshData()
         {
-
-            //this.gridJobs.BeginInvoke(new Action(() =>
-            //{
-            //    source.ResetBindings(false);
-            //}));
-            //gridJobs.DataSource = null;
-            //source = new BindingSource();
-            //source.DataSource = jobs;
-            //gridJobs.DataSource = jobs;  
-
-            //gridJobs.RefreshDataSource();
-
-
             this.BeginInvoke(new Action(() =>
             {
                 viewJobs.RefreshData();
@@ -971,12 +1290,11 @@ namespace TestKeyboard
         {
             try
             {
-                Thread.Sleep(1000);
-                //var screen = ScreenCat.GetScreen(checkScreen.Checked, (int)posX.Value, (int)posY.Value, (int)numWidth.Value, (int)numHeight.Value);
+                Thread.Sleep(1000); 
                 var msg = ""; 
                 mFocus.FocusWindow(windowName.Text, ref msg);
                 var screen = ScreenCat.GetScreen(windowName.Text);
-                var savePath = Path.Combine(Application.StartupPath, "pics", $"{DateTime.Now.ToString("yyyMMddHHmmss")}.jpg");
+                var savePath = Path.Combine(Application.StartupPath, "pics", $"{DateTime.Now.ToString("yyyMMddHHmmss")}.png");
                 ScreenCat.SaveImageWithQuality(savePath, screen, 100);
                 picCut.Image = screen;
                 SetText($"截图成功:{savePath}");
@@ -1017,7 +1335,7 @@ namespace TestKeyboard
         {
             try
             {
-                jobName.Text = comTask.SelectedText;
+                jobName.Text = comTask.SelectedText; 
                 isStaring = false;
                 //获取配置
                 ReadConfig();
@@ -1043,7 +1361,10 @@ namespace TestKeyboard
 
                 var config = Newtonsoft.Json.JsonConvert.SerializeObject(jobs, Formatting.Indented);
                 File.WriteAllText(filePath, config);
-                ReadTask();
+                
+                
+
+                ReadTask(jobName.Text);
                 SetText("添加成功");
             }
             catch (Exception ex)
@@ -1058,9 +1379,10 @@ namespace TestKeyboard
             {
                 if (MessageBox.Show("确定要删除?", "提示", MessageBoxButtons.OKCancel) != DialogResult.OK)
                     return;
-                if (File.Exists(comTask.SelectedValue.ToString()))
+                var filePath = ((ImageComboBoxItem)comTask.SelectedItem).Value.ToString();
+                if (File.Exists(filePath))
                 {
-                    File.Delete(comTask.SelectedValue.ToString());
+                    File.Delete(filePath);
                 }
 
                 ReadTask();
@@ -1277,7 +1599,7 @@ namespace TestKeyboard
 
                     using (MemoryStream ms = new MemoryStream())
                     {
-                        renderer.WriteToStream(qrCode.Matrix, ImageFormat.Png, ms);
+                        renderer.WriteToStream(qrCode.Matrix, System.Drawing.Imaging.ImageFormat.Png, ms);
                         Image img = Image.FromStream(ms);
                         picWeChat.Image = img;
                     }
@@ -1368,12 +1690,33 @@ namespace TestKeyboard
         {
             try
             {
+                if (!isStaring) return;
                 sp.Stop();
                 SetText("停止播放");
             }
             catch (Exception ex)
             {
                 SetText(ex.Message);
+            }
+        }
+
+        private void btnEnable_Click(object sender, EventArgs e)
+        { 
+            var row = viewJobs.GetSelectedRows();
+            if (row.Length > 0)
+            { 
+                foreach (int idx in row)
+                {
+                    var tjob = (Job)viewJobs.GetRow(idx);
+                    tjob.enable = !tjob.enable;
+                }  
+                RefreshData();
+                SaveConfig();
+                SetText("操作成功");
+            }
+            else
+            {
+                SetText("请选择要操作的数据");
             }
         }
     }

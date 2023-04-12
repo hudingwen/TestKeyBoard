@@ -34,6 +34,14 @@ namespace TestKeyboard.Entity
         /// </summary>
         public int y { get; set; }  
         /// <summary>
+        /// 宽度
+        /// </summary>
+        public int width { get; set; }  
+        /// <summary>
+        /// 高度
+        /// </summary>
+        public int height { get; set; }
+        /// <summary>
         /// 持续时间
         /// </summary>
         public int duration { get; set; }
@@ -69,5 +77,13 @@ namespace TestKeyboard.Entity
         /// </summary>
 
         public bool isAsync { get; set; }
+        /// <summary>
+        /// 是否启用
+        /// </summary>
+        public bool enable { get; set; }
+        /// <summary>
+        /// 标识
+        /// </summary>
+        public bool flag { get; set; }  
     }
 }
