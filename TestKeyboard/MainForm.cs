@@ -551,7 +551,7 @@ namespace TestKeyboard
 
                     var isFind = FindText(item);
                     if (!isFind) click((int)KeyBoard.Escape);
-                    while (!isFind)
+                    while (!isFind && isStaring)
                     {
                         //没有找到执行前面两个任务 
                         var idx = jobs.FindIndex(t => t == item);
@@ -561,18 +561,17 @@ namespace TestKeyboard
                         if (!isFind) click((int)KeyBoard.Escape);
                     }
                     //找到了
-                    SetText("找到了姑姑");
+                    SetText("找到了姑姑"); 
                     click((int)KeyBoard.空格键);
-                    Thread.Sleep(1000);
+                    Thread.Sleep(3000);
                     click((int)KeyBoard.空格键);
-                    Thread.Sleep(1000);
+                    Thread.Sleep(3000);
                     click((int)KeyBoard.空格键);
-                    Thread.Sleep(1000);
+                    Thread.Sleep(3000);
                     click((int)KeyBoard.Escape);
 
                     //切换任务
                     StopTask();
-                    
                     comTask.BeginInvoke(new Action(() => {
                         int tidx = 0;
                         foreach (var task in comTask.Properties.Items)
@@ -593,13 +592,11 @@ namespace TestKeyboard
                             Start();
                         });
                     }));
-
-                    
+                    return; 
                 }
                 else if (item.type == JobType.姑姑领奖)
                 {
                     StopTask();
-                    
                     comTask.BeginInvoke(new Action(() => {
                         int tidx = 0;
                         foreach (var task in comTask.Properties.Items)
@@ -620,7 +617,7 @@ namespace TestKeyboard
                             Start();
                         }); 
                     }));
-                    
+                    return;
                 }
 
                 if (item.less == 0)
